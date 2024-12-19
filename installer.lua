@@ -18,6 +18,6 @@ function Github_Download(path, filename)
 end
 
 term.clear()
-term.setCursorPos(0,0)
+term.setCursorPos(1,1)
 print("Downloading Unity assets.")
 -- Github_Download()
