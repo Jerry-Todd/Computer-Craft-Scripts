@@ -14,7 +14,7 @@ end
 
 function Github_Download(path, filename)
     local file = http.get("https://raw.githubusercontent.com/Jerry-Todd/Computer-Craft-Scripts/main/" .. filename).readAll()
-    Write_File("filename", file)
+    Write_File(filename, file)
 end
 
 term.clear()

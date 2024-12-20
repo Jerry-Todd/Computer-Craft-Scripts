@@ -1,6 +1,6 @@
 local termWidth, termHeight = term.getSize() -- Get terminal size
 -- Create a window for multishell (all lines except the bottom one)
-local multishellWindow = window.create(term.current(), 1, 1, termWidth, termHeight - 1)
+local multishellWindow = window.create(term.current, 1, 1, termWidth, termHeight - 1)
 term.redirect(multishellWindow)
 
 local unityWindow = window.create(term.current)
