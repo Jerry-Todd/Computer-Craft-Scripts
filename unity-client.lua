@@ -31,6 +31,13 @@ end
 
 SetUnityStatus("Connected")
 
+local function runMultishell()
+    multishell.launch({}, "/rom/programs/shell.lua")
+end
+
+local co = coroutine.create(runMultishell)
+coroutine.resume(co)
+
 -- Send a message
 ws.send("Turtle connected")
 
