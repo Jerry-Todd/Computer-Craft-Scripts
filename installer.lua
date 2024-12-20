@@ -22,7 +22,7 @@ end
 
 term.clear()
 term.setCursorPos(1, 1)
-print("Downloading assets.")
+print("Downloading assets. test")
 Github_Download("unity-client.lua", "unity-client.lua")
 print(" - unity-client.lua")
 print("Download complete.")
