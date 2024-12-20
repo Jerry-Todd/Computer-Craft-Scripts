@@ -24,7 +24,7 @@ print("Connecting to WebSocket:", url)
 
 local ws, err = http.websocket(url)
 if not ws then
-    SetUnityStatus("Unity failed to connect")
+    term.clear()
     print("Unity failed to connect:", err)
     return
 end
@@ -38,7 +38,8 @@ ws.send("Turtle connected")
 while true do
     local event, url, message = os.pullEvent("websocket_message")
     if message then
-        print("Received:", message)
+        local data = textutils.unserializeJSON(message)
+        print(data)
         if message == "exit" then
             break
         end
