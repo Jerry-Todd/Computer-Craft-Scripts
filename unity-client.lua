@@ -39,7 +39,7 @@ while true do
     local event, url, message = os.pullEvent("websocket_message")
     if message then
         local data = textutils.unserializeJSON(message)
-        print(data)
+        print(data.message)
         if message == "exit" then
             break
         end
