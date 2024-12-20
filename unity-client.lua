@@ -3,7 +3,7 @@ local termWidth, termHeight = term.getSize() -- Get terminal size
 local multishellWindow = window.create(term.current(), 1, 1, termWidth, termHeight - 1)
 term.redirect(multishellWindow)
 
-local unityWindow = window.create(term.current())
+local unityWindow = window.create(term.current(), 1, termHeight, termWidth, 1)
 function SetUnityStatus(text)
     unityWindow.term.setBackroundColor(colors.gray)
     unityWindow.term.clear()
