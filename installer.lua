@@ -5,7 +5,7 @@ function Write_File(path, data)
 
     if file then
         file.write(data) -- Write content to the file
-        file.close()     -- Close the file
+        file.close() -- Close the file
         print("File created successfully!")
     else
         print("Failed to create the file.")
@@ -13,12 +13,15 @@ function Write_File(path, data)
 end
 
 function Github_Download(path, filename)
-    local file = http.get("https://raw.githubusercontent.com/Jerry-Todd/Computer-Craft-Scripts/main/" .. filename).readAll()
+    local url = "https://raw.githubusercontent.com/Jerry-Todd/Computer-Craft-Scripts/main/"
+    local cacheBuster = os.epoch("utc") -- Get the current timestamp
+    local file = http.get(url .. filename .. "?t=" .. cacheBuster)
+                     .readAll()
     Write_File(filename, file)
 end
 
 term.clear()
-term.setCursorPos(1,1)
+term.setCursorPos(1, 1)
 print("Downloading assets.")
 Github_Download("unity-client.lua", "unity-client.lua")
 print(" - unity-client.lua")
