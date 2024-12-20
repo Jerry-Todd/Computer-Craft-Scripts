@@ -15,9 +15,9 @@ end
 function Github_Download(path, filename)
     local url = "https://raw.githubusercontent.com/Jerry-Todd/Computer-Craft-Scripts/main/"
     local cacheBuster = os.epoch("utc") -- Get the current timestamp
-    local file = http.get(url .. filename .. "?t=" .. cacheBuster)
+    local data = http.get(url .. filename .. "?t=" .. cacheBuster)
                      .readAll()
-    Write_File(filename, file)
+    Write_File(filename, data)
 end
 
 Github_Download("installer.lua", "installer.lua")
