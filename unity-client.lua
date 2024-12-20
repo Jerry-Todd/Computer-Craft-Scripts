@@ -16,7 +16,6 @@ function SetUnityStatus(text)
     term.redirect(multishellWindow)
 end
 SetUnityStatus("Attempting connection")
-term.setBackgroundColor(colors.red)
 term.setCursorPos(1,1)
 
 local url = "ws://localhost:3000"
