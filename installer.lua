@@ -19,5 +19,7 @@ end
 
 term.clear()
 term.setCursorPos(1,1)
-print("Downloading Unity assets.")
--- Github_Download()
+print("Downloading assets.")
+Github_Download("unity-client.lua", "unity-client.lua")
+print(" - unity-client.lua")
+print("Download complete.")
