@@ -1,5 +1,5 @@
 function Write_File(path, data)
-    fs.delete("installer.lua")
+    fs.delete(path)
 
     local file = fs.open(path, "w")
 
@@ -13,7 +13,6 @@ function Write_File(path, data)
 end
 
 function Github_Download(path, filename)
-    fs.delete("filename")
     local url = "https://raw.githubusercontent.com/Jerry-Todd/Computer-Craft-Scripts/main/"
     local cacheBuster = os.epoch("utc") -- Get the current timestamp
     local file = http.get(url .. filename .. "?t=" .. cacheBuster)
