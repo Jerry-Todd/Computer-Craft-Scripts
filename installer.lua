@@ -17,7 +17,7 @@ function Github_Download(path, filename)
     local cacheBuster = os.epoch("utc") -- Get the current timestamp
     local file = http.get(url .. filename .. "?t=" .. cacheBuster)
                      .readAll()
-    Write_File(filename, file)
+    Write_File(path, file)
     print(" - " .. filename)
 end
 
