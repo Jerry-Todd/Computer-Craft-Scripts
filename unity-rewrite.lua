@@ -3,8 +3,6 @@ local statusBar = window.create(term.native(), 1, termHeight, termWidth, 1)
 local terminal = window.create(term.native(), 1, 1, termWidth, termHeight - 1)
 
 term.redirect(terminal)
-term.setBackgroundColor(colors.gray)
-term.clear()
 
 Unity = coroutine.create(function()
     while true do
