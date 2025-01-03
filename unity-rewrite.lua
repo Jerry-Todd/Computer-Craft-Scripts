@@ -4,7 +4,7 @@ local terminal = window.create(term.native(), 1, 1, termWidth, termHeight - 1)
 
 
 term.redirect(terminal)
-shell.clear()
+
 
 Unity = coroutine.create(function()
     while true do
