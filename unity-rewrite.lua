@@ -2,7 +2,7 @@ local termWidth, termHeight = term.getSize() -- Get terminal size
 local statusBar = window.create(term.native(), 1, termHeight, termWidth, 1)
 local terminal = window.create(term.native(), 1, 1, termWidth, termHeight - 1)
 
-coroutine.resume(Unity)
+
 term.redirect(terminal)
 shell.clear()
 
@@ -15,3 +15,5 @@ Unity = coroutine.create(function()
         coroutine.yield()
     end
 end)
+
+coroutine.resume(Unity)
