@@ -22,6 +22,25 @@ end)
 
 coroutine.resume(Unity)
 
-local shellRom = "roms/programs/shell.lua"
--- shell = "require("shell")"
-shell.run(shellRom)
+-- Properly initialize the shell in the new terminal window
+local function runShell()
+    -- Save the original environment
+    local originalTerm = term.current()
+
+    -- Redirect terminal for the shell
+    term.redirect(terminal)
+
+    -- Initialize and run the shell
+    local shellPath = "/rom/programs/shell.lua"
+    if fs.exists(shellPath) then
+        shell = dofile(shellPath) -- Load and execute the shell script
+    else
+        print("Shell not found!")
+    end
+
+    -- Restore the original terminal environment after the shell exits
+    term.redirect(originalTerm)
+end
+
+-- Run the shell in the top terminal window
+runShell()
