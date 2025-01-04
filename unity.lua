@@ -5,7 +5,7 @@ if not dofile("wss-checker.lua") then
     print("Unity aborted")
     return
 end
-sleep(1)
+sleep(2)
 term.clear()
 term.setCursorPos(1, 1)
 
@@ -16,15 +16,15 @@ local terminal = window.create(term.native(), 1, 1, termWidth, termHeight - 1)
 term.redirect(terminal)
 
 -- Handle Unity Statusbar rendering -------------------------------------------
+UnityStatus = ""
 Unity = coroutine.create(function()
     while true do
         local previousTerm = term.redirect(statusBar)
 
         term.setBackgroundColor(colors.white)
         term.clear()
-        term.redirect(previousTerm)
-        term.setCursorPos(1, 1)
-        term.write("Status: Everything is OK")
+        term.setCursorPos(1, termHeight)
+        term.write("Unity / " .. UnityStatus)
 
         term.redirect(previousTerm)
 
