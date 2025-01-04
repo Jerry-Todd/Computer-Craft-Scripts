@@ -43,6 +43,8 @@ function Unity.setStatus(text)
     UnityStatus = text
 end
 
+_G.Unity = Unity
+
 -- Initialize multishell in terminal window -----------------------------------
 local function runShell()
     -- Save the original environment
