@@ -23,5 +23,5 @@ end)
 coroutine.resume(Unity)
 
 local shellRom = "roms/programs/shell.lua"
-shell = "require("shell")"
+-- shell = "require("shell")"
 shell.run(shellRom)
