@@ -16,7 +16,7 @@ local terminal = window.create(term.native(), 1, 1, termWidth, termHeight - 1)
 term.redirect(terminal)
 
 -- Handle Unity Statusbar rendering -------------------------------------------
-UnityStatus = ""
+local UnityStatus = ""
 Unity = coroutine.create(function()
     while true do
         local previousTerm = term.redirect(statusBar)
@@ -33,6 +33,15 @@ Unity = coroutine.create(function()
     end
 end)
 coroutine.resume(Unity)
+
+-- Create Unity API functions -------------------------------------------------
+Unity = {}
+
+Unity.active = true
+
+function Unity.setStatus(text)
+    UnityStatus = text
+end
 
 -- Initialize multishell in terminal window -----------------------------------
 local function runShell()
