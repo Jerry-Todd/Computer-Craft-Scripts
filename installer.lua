@@ -24,8 +24,6 @@ end
 term.clear()
 term.setCursorPos(1, 1)
 print("Downloading assets. test")
--- Github_Download("unity-client.lua", "unity-client.lua")
-Github_Download("unity.lua", "unity-rewrite.lua")
+Github_Download("unity.lua", "unity.lua")
+Github_Download("wss-checker.lua", "wss-checker.lua")
 print("Download complete.")
-
--- os.run({}, "unity-rewrite.lua")

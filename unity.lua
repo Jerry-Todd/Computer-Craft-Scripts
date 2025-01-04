@@ -1,11 +1,22 @@
+-- Check for ability to use websockets ---------------------------------------
+term.clear()
+term.setCursorPos(1, 1)
+if not dofile("wss-checker.lua") then
+    print("Unity aborted")
+    return
+end
+sleep(1)
+term.clear()
+term.setCursorPos(1, 1)
+
+-- Create seperate windows
 local termWidth, termHeight = term.getSize() -- Get terminal size
 local statusBar = window.create(term.native(), 1, termHeight, termWidth, 1)
 local terminal = window.create(term.native(), 1, 1, termWidth, termHeight - 1)
-
 term.redirect(terminal)
 
+-- Handle Unity Statusbar rendering -------------------------------------------
 Unity = coroutine.create(function()
-    -- Handle Unity Statusbar rendering
     while true do
         local previousTerm = term.redirect(statusBar)
 
@@ -21,10 +32,9 @@ Unity = coroutine.create(function()
         sleep(0.1)
     end
 end)
-
 coroutine.resume(Unity)
 
--- Properly initialize the shell in the new terminal window
+-- Initialize multishell in terminal window -----------------------------------
 local function runShell()
     -- Save the original environment
     local originalTerm = term.current()
@@ -46,3 +56,33 @@ end
 
 -- Run the shell in the top terminal window
 runShell()
+
+-- HANDLE WEBSOCKET ------------------------------------------------------------
+local url = "ws://localhost:3000"
+print("Connecting to WebSocket:", url)
+
+local ws, err = http.websocket(url)
+if not ws then
+    print("Failed to connect:", err)
+    return
+end
+
+print("Connected!")
+
+-- Send a message
+ws.send("Turtle connected")
+
+-- Listen for messages
+while true do
+    local event, url, message = os.pullEvent("websocket_message")
+    if message then
+        print("Received:", message)
+        if message == "exit" then
+            break
+        end
+    end
+end
+
+-- Close the connection
+ws.close()
+print("Disconnected!")
