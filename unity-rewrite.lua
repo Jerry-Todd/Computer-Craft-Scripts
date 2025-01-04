@@ -5,8 +5,10 @@ local terminal = window.create(term.native(), 1, 1, termWidth, termHeight - 1)
 term.redirect(terminal)
 
 Unity = coroutine.create(function()
+    -- Handle Unity Statusbar rendering
     while true do
         local previousTerm = term.redirect(statusBar)
+
         term.setBackgroundColor(colors.white)
         term.clear()
         term.redirect(previousTerm)
@@ -31,7 +33,7 @@ local function runShell()
     term.redirect(terminal)
 
     -- Initialize and run the shell
-    local shellPath = "/rom/programs/shell.lua"
+    local shellPath = "/rom/programs/advanced/multishell.lua"
     if fs.exists(shellPath) then
         shell = dofile(shellPath) -- Load and execute the shell script
     else
