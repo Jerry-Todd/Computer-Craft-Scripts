@@ -24,6 +24,8 @@ end
 term.clear()
 term.setCursorPos(1, 1)
 print("Downloading assets. test")
+Write_File("update.lua", 'shell.run("pastebin run myiZqrq6")')
+print(" - " .. "update.lua")
 Github_Download("unity.lua", "unity.lua")
 Github_Download("wss-checker.lua", "wss-checker.lua")
 Github_Download("api-test.lua", "api-test-program.lua")
