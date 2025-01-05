@@ -1,4 +1,4 @@
--- Check for ability to use websockets ---------------------------------------
+-- Check for ability to use websockets
 term.clear()
 term.setCursorPos(1, 1)
 if not dofile("wss-checker.lua") then
@@ -19,12 +19,14 @@ term.redirect(terminal)
 
 UnityAPI = {}
 
-UnityAPI.active = true
+function UnityAPI.isActive()
+    
+end
 
-UnityAPI.BarText = ""
+UnityAPI.barText = ""
 
 function UnityAPI.setText(text)
-    UnityAPI.BarText = text
+    UnityAPI.barText = text
 end
 
 _G.Unity = UnityAPI
@@ -40,7 +42,7 @@ Unity = coroutine.create(function()
         term.clear()
         term.setCursorPos(1, termHeight)
         term.setTextColor(colors.black)
-        term.write("Unity / " .. Unity.BarText)
+        term.write("Unity / " .. Unity.barText)
 
         term.redirect(previousTerm)
 

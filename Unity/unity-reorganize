@@ -1,0 +1,56 @@
+-- Initialize Unity
+if not _G.Unity then
+    _G.Unity = {}
+end
+
+local Unity = _G.Unity -- Shortcut for convenience
+Unity.active = true
+Unity.barText = ""
+
+-- Cleanup Function
+local function cleanup()
+    _G.Unity = nil -- Remove Unity from the global scope
+end
+
+function UnityBar()
+    
+end
+
+
+
+-- Simulate Unity logic
+local function main()
+    print("Unity is running!")
+    -- Check for ability to use websockets
+    term.clear()
+    term.setCursorPos(1, 1)
+    if not dofile("wss-checker.lua") then
+        print("Unity aborted")
+        return
+    end
+    sleep(2)
+    term.clear()
+    term.setCursorPos(1, 1)
+
+    -- Create seperate windows
+    local termWidth, termHeight = term.getSize() -- Get terminal size
+    local statusBar = window.create(term.native(), 1, termHeight, termWidth, 1)
+    local terminal = window.create(term.native(), 1, 1, termWidth, termHeight - 1)
+    term.redirect(terminal)
+
+    -- Start UnityBar functionality
+    UnityBar = coroutine.create(UnityBar)
+    coroutine.resume(UnityBar)
+
+
+end
+
+-- Run the main function with cleanup
+local ok, err = pcall(main)
+if not ok then
+    term.clear()
+    printError("Unity encountered an error: " .. err)
+end
+cleanup()
+
+
