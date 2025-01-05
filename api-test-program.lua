@@ -1,13 +1,12 @@
 
 
-if Unity == nil then
-    Unity = {}
-    Unity.active = false
+
+
+
+if G_.Unity then
+    print(G_.Unity.active)
+    G_.Unity.setStatus("API test Success")
+    print("API test failed")
+    return
 end
-
-
-
-print(Unity.active)
-if Unity.active then
-    Unity.setStatus("Api test Success")
-end
+print("API test failed")

@@ -15,8 +15,23 @@ local statusBar = window.create(term.native(), 1, termHeight, termWidth, 1)
 local terminal = window.create(term.native(), 1, 1, termWidth, termHeight - 1)
 term.redirect(terminal)
 
+-- Create Unity API functions -------------------------------------------------
+
+Unity = {}
+
+Unity.active = true
+
+Unity.BarText = ""
+
+function Unity.setText(text)
+    Unity.BarText = text
+end
+
+_G.Unity = Unity
+
+
 -- Handle Unity Statusbar rendering -------------------------------------------
-local UnityStatus = ""
+
 Unity = coroutine.create(function()
     while true do
         local previousTerm = term.redirect(statusBar)
@@ -24,7 +39,8 @@ Unity = coroutine.create(function()
         term.setBackgroundColor(colors.white)
         term.clear()
         term.setCursorPos(1, termHeight)
-        term.write("Unity / " .. UnityStatus)
+        term.setTextColor(colors.black)
+        term.write("Unity / " .. Unity.BarText)
 
         term.redirect(previousTerm)
 
@@ -34,16 +50,7 @@ Unity = coroutine.create(function()
 end)
 coroutine.resume(Unity)
 
--- Create Unity API functions -------------------------------------------------
-Unity = {}
 
-Unity.active = true
-
-function Unity.setStatus(text)
-    UnityStatus = text
-end
-
-_G.Unity = Unity
 
 -- Initialize multishell in terminal window -----------------------------------
 local function runShell()
@@ -97,3 +104,5 @@ end
 -- Close the connection
 ws.close()
 print("Disconnected!")
+
+
