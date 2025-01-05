@@ -17,17 +17,17 @@ term.redirect(terminal)
 
 -- Create Unity API functions -------------------------------------------------
 
-Unity = {}
+UnityAPI = {}
 
-Unity.active = true
+UnityAPI.active = true
 
-Unity.BarText = ""
+UnityAPI.BarText = ""
 
-function Unity.setText(text)
-    Unity.BarText = text
+function UnityAPI.setText(text)
+    UnityAPI.BarText = text
 end
 
-_G.Unity = Unity
+_G.Unity = UnityAPI
 
 
 -- Handle Unity Statusbar rendering -------------------------------------------
