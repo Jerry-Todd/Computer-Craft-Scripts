@@ -16,7 +16,11 @@ function Github_Download(path, githubPath)
     local url = "https://raw.githubusercontent.com/Jerry-Todd/Computer-Craft-Scripts/main/"
     local cacheBuster = os.epoch("utc") -- Get the current timestamp
     local file = http.get(url .. githubPath .. "?t=" .. cacheBuster)
-                     .readAll()
+    if file then
+        file = file.readAll()
+    else
+        print("Github / Cant get file: " .. githubPath)
+    end
     Write_File(path, file)
     print(" - " .. path)
 end
