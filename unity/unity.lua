@@ -9,7 +9,7 @@ print("Dependencies loaded")
 local function main()
     term.clear()
     term.setCursorPos(1, 1)
-    if not dofile("wss-checker.lua") then
+    if not WSS.test then
         print("Unity aborted")
         return
     end
