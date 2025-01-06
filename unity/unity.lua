@@ -1,9 +1,10 @@
-Path = fs.getDir(shell.getRunningProgram())
 
-local Bar = dofile(Path.."/unityBar.lua")
-local Shell = dofile(Path.."/unityShell.lua")
-local API = dofile(Path.."/unityAPI.lua")
-local WSS = dofile(Path.."/unityWSS.lua")
+local path = fs.getDir(shell.getRunningProgram())
+
+local Bar = dofile(path.."/unityBar.lua")
+local Shell = dofile(path.."/unityShell.lua")
+local API = dofile(path.."/unityAPI.lua")
+local WSS = dofile(path.."/unityWSS.lua")
 
 print("Dependencies loaded")
 

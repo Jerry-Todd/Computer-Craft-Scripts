@@ -38,6 +38,8 @@ Write_File("update.lua", 'shell.run("pastebin run myiZqrq6")')
 print(" - " .. "update.lua")
 Write_File("unity.lua", 'dofile("unity/unity.lua")')
 print(" - " .. "unity.lua (shortcut)")
+Write_File("unity.lua", 'os.run({}, "unity/unity.lua")")')
+print(" - " .. "unitytest.lua (shortcut)")
 Github_Download("unity/unity.lua", "unity/unity.lua")
 Github_Download("unity/unityShell.lua", "unity/unityShell.lua")
 Github_Download("unity/unityBar.lua", "unity/unityBar.lua")
@@ -54,3 +56,4 @@ Github_Download("testing/test.lua", "testing/test.lua")
 Github_Download("testing/otherfile.lua", "testing/otherfile.lua")
 
 print("Download complete.")
+
