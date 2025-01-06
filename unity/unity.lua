@@ -1,4 +1,6 @@
 
+shell = _G.shell
+
 local path = fs.getDir(shell.getRunningProgram())
 
 local Bar = dofile(path.."/unityBar.lua")
