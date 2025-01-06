@@ -12,14 +12,16 @@ function Write_File(path, data)
     end
 end
 
-function Github_Download(path, filename)
+function Github_Download(path, GithubPath)
     local url = "https://raw.githubusercontent.com/Jerry-Todd/Computer-Craft-Scripts/main/"
     local cacheBuster = os.epoch("utc") -- Get the current timestamp
-    local data = http.get(url .. filename .. "?t=" .. cacheBuster)
+    local data = http.get(url .. GithubPath .. "?t=" .. cacheBuster)
                      .readAll()
-    Write_File(filename, data)
+    Write_File(GithubPath, data)
 end
 
 Github_Download("installer.lua", "installer.lua")
 
-os.run({}, "installer.lua")
+dofile("installer.lua")
+
+fs.delete("installer.lua")
