@@ -1,7 +1,7 @@
-Bar = dofile("unity/unityBar.lua")
-Shell = dofile("unity/unityShell.lua")
-API = dofile("unity/unityAPI.lua")
-WSS = dofile("unity/unityWSS.lua")
+Bar = dofile("unityBar.lua")
+Shell = dofile("unityShell.lua")
+API = dofile("unityAPI.lua")
+WSS = dofile("unityWSS.lua")
 
 -- Run Unity
 local function main()
