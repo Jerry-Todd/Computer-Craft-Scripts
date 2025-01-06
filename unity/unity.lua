@@ -3,6 +3,8 @@ Shell = dofile("unityShell.lua")
 API = dofile("unityAPI.lua")
 WSS = dofile("unityWSS.lua")
 
+print("Dependencies loaded")
+
 -- Run Unity
 local function main()
     term.clear()
