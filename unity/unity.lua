@@ -1,7 +1,7 @@
-Bar = require("UnityBar")
-Shell = require("UnityShell")
-API = require("UnityAPI")
-WSS = require("UnityWSS")
+require("UnityBar")
+require("UnityShell")
+require("UnityAPI")
+require("UnityWSS")
 
 -- Run Unity
 local function main()
