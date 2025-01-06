@@ -1,4 +1,6 @@
-function UnityBar(terminal, termWidth, termHeight)
+local UnityBar = {}
+
+function UnityBar.run(terminal, termWidth, termHeight)
     while true do
         local previousTerm = term.redirect(terminal)
 
@@ -14,3 +16,5 @@ function UnityBar(terminal, termWidth, termHeight)
         sleep(0.1)
     end
 end
+
+return UnityBar

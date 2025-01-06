@@ -1,7 +1,7 @@
-require("UnityBar")
-require("UnityShell")
-require("UnityAPI")
-require("UnityWSS")
+Bar = dofile("UnityBar")
+Shell = dofile("UnityShell")
+API = dofile("UnityAPI")
+WSS = dofile("UnityWSS")
 
 -- Run Unity
 local function main()
@@ -22,14 +22,14 @@ local function main()
     local terminal = window.create(term.native(), 1, 1, termWidth, termHeight - 1)
     term.redirect(terminal)
 
-    loadAPI()
+    API.load()
 
-    Processes.UnityBar = coroutine.create(UnityBar(statusBar, termWidth, termHeight))
+    Processes.UnityBar = coroutine.create(Bar.run(statusBar, termWidth, termHeight))
     coroutine.resume(Processes.UnityBar)
 
-    runShell(terminal)
+    Shell.run(terminal)
 
-    Processes.Websocket = coroutine.create(startWebsocket)
+    Processes.Websocket = coroutine.create(WSS.start())
     coroutine.resume(Processes.Websocket)
     
 
@@ -41,5 +41,5 @@ if not ok then
     term.clear()
     printError("Unity encountered an error: " .. err)
 end
-unloadAPI()
+API.unload()
 

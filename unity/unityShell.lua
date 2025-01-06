@@ -1,6 +1,7 @@
 
+local Shell = {}
 
-function runShell(terminal)
+function Shell.run(terminal)
     -- Save the original environment
     local originalTerm = term.current()
 
@@ -19,3 +20,4 @@ function runShell(terminal)
     term.redirect(originalTerm)
 end
 
+return Shell

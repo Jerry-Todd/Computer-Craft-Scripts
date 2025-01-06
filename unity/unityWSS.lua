@@ -1,4 +1,6 @@
-function startWebsocket()
+local Websocket = {}
+
+function Websocket.start()
     local url = "ws://localhost:3000"
     print("Connecting to WebSocket:", url)
 
@@ -28,3 +30,5 @@ function startWebsocket()
     ws.close()
     print("Disconnected!")
 end
+
+return Websocket
