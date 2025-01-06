@@ -14,7 +14,7 @@ print("Dependencies loaded")
 local function main()
     term.clear()
     term.setCursorPos(1, 1)
-    if not WSS.test then
+    if not WSS.test() then
         print("Unity aborted")
         return
     end
