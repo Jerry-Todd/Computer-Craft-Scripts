@@ -20,6 +20,7 @@ function Github_Download(path, githubPath)
         file = file.readAll()
     else
         print("Github / Cant get file: " .. githubPath)
+        return
     end
     Write_File(path, file)
     print(" - " .. path)
