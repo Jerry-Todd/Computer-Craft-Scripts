@@ -1,6 +1,6 @@
 
 
-function runShell()
+function runShell(terminal)
     -- Save the original environment
     local originalTerm = term.current()
 

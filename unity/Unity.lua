@@ -24,10 +24,10 @@ local function main()
 
     loadAPI()
 
-    Processes.UnityBar = coroutine.create(UnityBar)
+    Processes.UnityBar = coroutine.create(UnityBar(statusBar, termWidth, termHeight))
     coroutine.resume(Processes.UnityBar)
 
-    runShell()
+    runShell(terminal)
 
     Processes.Websocket = coroutine.create(startWebsocket)
     coroutine.resume(Processes.Websocket)

@@ -1,6 +1,6 @@
-function UnityBar()
+function UnityBar(terminal, termWidth, termHeight)
     while true do
-        local previousTerm = term.redirect(statusBar)
+        local previousTerm = term.redirect(terminal)
 
         term.setBackgroundColor(colors.white)
         term.clear()
