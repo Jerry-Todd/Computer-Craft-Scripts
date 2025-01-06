@@ -46,3 +46,11 @@ Github_Download("unity/unityAPI.lua", "unity/unityAPI.lua")
 Github_Download("unity/wss-checker.lua", "unity/wss-checker.lua")
 Github_Download("api-test.lua", "api-test-program.lua")
 print("Download complete.")
+
+print("downloading Testing assets")
+print("Downloading assets. test")
+
+Github_Download("testing/test.lua", "testing/test.lua")
+Github_Download("testing/otherfile.lua", "testing/otherfile.lua")
+
+print("Download complete.")
