@@ -6,9 +6,9 @@ function Write_File(path, data)
     if file then
         file.write(data) -- Write content to the file
         file.close() -- Close the file
-        print("File created successfully!")
+        print("File created")
     else
-        print("Failed to create the file.")
+        print("File failed to create")
     end
 end
 
@@ -18,6 +18,7 @@ function Github_Download(path, githubPath)
     local file = http.get(url .. githubPath .. "?t=" .. cacheBuster)
     if file then
         file = file.readAll()
+        print("Github / Got file: " .. githubPath)
         Write_File(path, file)
         print(" - " .. path)
     else
