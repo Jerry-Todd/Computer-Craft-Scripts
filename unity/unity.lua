@@ -1,7 +1,9 @@
-Bar = dofile("unityBar.lua")
-Shell = dofile("unityShell.lua")
-API = dofile("unityAPI.lua")
-WSS = dofile("unityWSS.lua")
+Path = fs.getDir(shell.getRunningProgram())
+
+local Bar = dofile(Path.."/unityBar.lua")
+local Shell = dofile(Path.."/unityShell.lua")
+local API = dofile(Path.."/unityAPI.lua")
+local WSS = dofile(Path.."/unityWSS.lua")
 
 print("Dependencies loaded")
 
@@ -17,7 +19,7 @@ local function main()
     term.clear()
     term.setCursorPos(1, 1)
 
-    Processes = {}
+    local Processes = {}
 
     local termWidth, termHeight = term.getSize() -- Get terminal size
     local statusBar = window.create(term.native(), 1, termHeight, termWidth, 1)

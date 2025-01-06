@@ -1,13 +1,7 @@
 
 local path = fs.getDir(shell.getRunningProgram())
 
-print(fs.list(""))
-
-print(path)
-
-print(fs.exists("otherfile.lua"))
-
-local file = dofile("testing.otherfile.lua")
+local file = dofile(path.."/otherfile.lua")
 
 file.hello()
 
