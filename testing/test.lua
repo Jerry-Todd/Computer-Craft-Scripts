@@ -1,11 +1,9 @@
 
-
+local path = fs.getDir(shell.getRunningProgram())
 
 print(fs.list(""))
 
-print(shell.dir)
-
-print(fs.getDir())
+print(path)
 
 print(fs.exists("otherfile.lua"))
 
