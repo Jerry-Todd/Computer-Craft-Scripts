@@ -26,8 +26,8 @@ function Github_Download(path, githubPath)
     end
 end
 
-Github_Download("installer.lua", "installer.lua")
+Github_Download("unity/installer.lua", "unity/installer.lua")
 
-dofile("installer.lua")
+dofile("unity/installer.lua")
 
-fs.delete("installer.lua")
+fs.delete("unity/installer.lua")
