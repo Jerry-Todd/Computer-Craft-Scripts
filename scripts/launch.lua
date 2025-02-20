@@ -12,7 +12,7 @@ end
 term.clear()
 term.setCursorPos(2, 2)
 
-print("Select script")
+print("Launch script (arrow keys & enter)")
 
 for i, script in ipairs(scripts) do
     term.setCursorPos(4, 2 + i * 2)
