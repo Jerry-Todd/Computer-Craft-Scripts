@@ -26,6 +26,6 @@ function Github_Download(path, githubPath)
     end
 end
 
-Github_Download("scripts/installer.lua", "scripts/installer.lua")
+Github_Download("scripts/install/installer.lua", "scripts/install/installer.lua")
 
-dofile("scripts/installer.lua")
+dofile("scripts/install/installer.lua")
