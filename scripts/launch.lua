@@ -3,16 +3,20 @@ local scripts_folder = fs.list("scripts")
 local options_folder = fs.list("scripts/options")
 
 local options = {}
+local options_path = {}
 
 for i, o in ipairs(options_folder) do
     if string.sub(o, -4) == ".lua" then
         table.insert(options, o)
+        table.insert(options_path, "scripts/options/"..o)
     end
 end
 
 for i, s in ipairs(scripts_folder) do
     if string.sub(s, -4) == ".lua" then
         table.insert(options, s)
+        table.insert(options_path, "scripts/"..s)
+
     end
 end
 
@@ -30,7 +34,7 @@ Cursor = 1
 
 function Move_cursor(direction)
 
-    term.setCursorPos(2, 2 + Cursor)
+    term.setCursorPos(2, 2 + Cursor * 2)
     print(" ")
 
     if direction == "up" then
@@ -58,7 +62,7 @@ while true do
     if key == "enter" then
         term.clear()
         term.setCursorPos(1, 1)
-        shell.run("scripts/" .. options[Cursor])
+        shell.run(options_path[Cursor])
         break
     end
 end
