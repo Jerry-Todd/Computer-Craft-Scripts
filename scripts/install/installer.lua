@@ -47,4 +47,4 @@ term.setCursorPos(1, 1)
 
 print("Download complete.")
 print("Update shortcut created.")
-print("(update-scripts.lua in root folder)")
+os.reboot()
