@@ -33,7 +33,7 @@ fs.delete("scripts")
 print("Creating shortcuts")
 
 Write_File("scripts/options/update.lua", "shell.run(\"scripts/install/installer.lua\")")
-Write_File("scripts/options/exit.lua", "term.clear()\nterm.setCursorPos(1,1)")
+Write_File("scripts/options/exit.lua", "term.clear()\nterm.setCursorPos(1,1)\nprint(\"Terminal\")")
 Write_File("startup.lua", "shell.run(\"launch.lua\")")
 
 print("Downloading Scripts")
