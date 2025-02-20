@@ -16,7 +16,6 @@ for i, s in ipairs(scripts_folder) do
     if string.sub(s, -4) == ".lua" then
         table.insert(options, s)
         table.insert(options_path, "scripts/"..s)
-
     end
 end
 
@@ -32,7 +31,7 @@ end
 
 Cursor = 1
 
-function Move_cursor(direction)
+function CursorControl(direction)
 
     term.setCursorPos(2, 2 + Cursor * 2)
     io.write(" ")
@@ -53,12 +52,12 @@ function Move_cursor(direction)
     io.write(">")
 end
 
-Move_cursor(nil)
+CursorControl(nil)
 
 while true do
     local event, key = os.pullEvent("key")
     key = keys.getName(key)
-    Move_cursor(key)
+    CursorControl(key)
     if key == "enter" then
         term.clear()
         term.setCursorPos(1, 1)
@@ -67,3 +66,4 @@ while true do
     end
 end
 
+os.shutdown()
