@@ -29,14 +29,16 @@ end
 term.clear()
 term.setCursorPos(1, 1)
 
+print("Creating update shortcut")
+
+Write_File("update-scripts.lua", "shell.run(\"install/installer.lua\")")
+
 print("Downloading Scripts")
 
 Github_Download("scripts/digarea.lua", "scripts/digarea.lua")
 Github_Download("scripts/treefarm.lua", "scripts/treefarm.lua")
 
-print("Creating update shortcut")
-
-Write_File("update-scripts.lua", "shell.run(\"scripts/testing/installer.lua\")")
+Github_Download("launch.lua", "scripts/launch.lua")
 
 term.clear()
 term.setCursorPos(1, 1)
