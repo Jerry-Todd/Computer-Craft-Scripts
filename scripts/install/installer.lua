@@ -31,7 +31,7 @@ term.setCursorPos(1, 1)
 
 print("Creating shortcuts")
 
-Write_File("scripts/update-scripts.lua", "shell.run(\"install/installer.lua\")")
+Write_File("scripts/update-scripts.lua", "shell.run(\"scripts/install/installer.lua\")")
 Write_File("scripts/exit.lua", "term.clear()\nterm.setCursorPos(1,1)")
 Write_File("startup.lua", "shell.run(\"launch.lua\")")
 
