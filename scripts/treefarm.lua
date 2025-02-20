@@ -15,17 +15,15 @@ function selectItem(item)
     return false
 end
 
-local logs = {
-    "oak_log",
-    "spruce_log",
-    "birch_log",
+local treetypes = {
+    "oak",
+    "spruce",
+    "birch",
 }
 
-
-function isBlock(block)
-    block = "minecraft:" .. block
+function IsLog()
     local isThere, data = turtle.inspect()
-    if Contains(logs, data.name) then
+    if Contains(treetypes, data.name .. "_log") then
         return true
     end
     return false
@@ -47,9 +45,9 @@ while (true) do
         if selectItem("bone_meal") then
             turtle.place()
         end
-    until isBlock("spruce_log")
+    until IsLog()
     height = 0
-    while isBlock("spruce_log") do
+    while IsLog() do
         turtle.dig()
         if turtle.detectUp() then turtle.digUp() end
         turtle.up()
@@ -59,7 +57,7 @@ while (true) do
         if turtle.detectDown() then turtle.digDown() end
         turtle.down()
     end
-    if selectItem("spruce_sapling") then
+    if selectItem() then
         turtle.place()
     end
 end
