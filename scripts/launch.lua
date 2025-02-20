@@ -4,7 +4,7 @@ local options_folder = fs.list("scripts/options")
 
 local options = {}
 
-for i, o in ipairs(options) do
+for i, o in ipairs(options_folder) do
     if string.sub(o, -4) == ".lua" then
         table.insert(options, o)
     end
