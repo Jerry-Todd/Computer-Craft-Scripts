@@ -35,7 +35,7 @@ Cursor = 1
 function Move_cursor(direction)
 
     term.setCursorPos(2, 2 + Cursor * 2)
-    print(" ")
+    io.write(" ")
 
     if direction == "up" then
         Cursor = Cursor - 1
@@ -50,7 +50,7 @@ function Move_cursor(direction)
     end
 
     term.setCursorPos(2, 2 + Cursor * 2)
-    print(">")
+    io.write(">")
 end
 
 Move_cursor(nil)
