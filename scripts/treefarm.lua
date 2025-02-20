@@ -15,11 +15,27 @@ function selectItem(item)
     return false
 end
 
+local logs = {
+    "oak_log",
+    "spruce_log",
+    "birch_log",
+}
+
+
 function isBlock(block)
     block = "minecraft:" .. block
     local isThere, data = turtle.inspect()
-    if block == data.name then
+    if Contains(logs, data.name) then
         return true
+    end
+    return false
+end
+
+function Contains(list, value)
+    for _, v in ipairs(list) do
+        if v == value then
+            return true
+        end
     end
     return false
 end
