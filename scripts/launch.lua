@@ -65,5 +65,3 @@ while true do
         break
     end
 end
-
-os.shutdown()
