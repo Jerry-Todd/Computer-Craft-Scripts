@@ -28,18 +28,20 @@ end
 
 term.clear()
 term.setCursorPos(1, 1)
+
 fs.delete("scripts")
 
 print("Creating shortcuts")
 
-Write_File("scripts/options/update.lua", "shell.run(\"scripts/install/installer.lua\")")
-Write_File("scripts/options/exit.lua", "term.clear()\nterm.setCursorPos(1,1)\nprint(\"Terminal\")")
+Write_File("scripts/options/Update.lua", "shell.run(\"scripts/install/installer.lua\")")
+Write_File("scripts/options/Exit.lua", "term.clear()\nterm.setCursorPos(1,1)\nprint(\"Terminal\")")
 Write_File("startup.lua", "shell.run(\"launch.lua\")")
 
 print("Downloading Scripts")
 
-Github_Download("scripts/digarea.lua", "scripts/digarea.lua")
-Github_Download("scripts/treefarm.lua", "scripts/treefarm.lua")
+Github_Download("scripts/Quary.lua", "scripts/quary.lua")
+Github_Download("scripts/Digarea.lua", "scripts/digarea.lua")
+Github_Download("scripts/Treefarm.lua", "scripts/treefarm.lua")
 
 Github_Download("launch.lua", "scripts/launch.lua")
 
