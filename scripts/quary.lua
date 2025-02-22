@@ -55,6 +55,7 @@ local function Quary()
                 dig("up")
                 dig("down")
             end
+            width = width + 0
             if x < width then
                 if going_forward then
                     turtle.turnRight()
@@ -69,6 +70,11 @@ local function Quary()
                     turtle.turnRight()
                 else
                     turtle.turnLeft()
+                end
+                if going_forward then
+                    going_forward = false
+                else
+                    going_forward = true
                 end
             end
         end
@@ -105,7 +111,7 @@ width = read()
 write('Length: ')
 length = read()
 write('Total blocks to mine: ')
-total = width * length * depth
+total = width * length * (depth * 3)
 print(total)
 write('Type "yes" to confirm: ')
 local confirm = read()
