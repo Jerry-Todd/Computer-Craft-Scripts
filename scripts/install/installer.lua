@@ -39,6 +39,8 @@ Write_File("startup.lua", "shell.run(\"launch.lua\")")
 
 print("Downloading Scripts")
 
+Github_Download("scripts/install/installer.lua", "scripts/install/installer.lua")
+
 Github_Download("scripts/Quary.lua", "scripts/quary.lua")
 Github_Download("scripts/Digarea.lua", "scripts/digarea.lua")
 Github_Download("scripts/Treefarm.lua", "scripts/treefarm.lua")
