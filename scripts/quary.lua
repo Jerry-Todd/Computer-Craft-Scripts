@@ -11,7 +11,7 @@ local function progressUpdate()
     term.setCursorPos(1, 2)
     write('Operation progress: ')
     write(math.floor((progress / total) * 1000) / 10)
-    write('\nBlocks left to mine: ')
+    write('%\nBlocks left to mine: ')
     write(total - progress)
 end
 
@@ -40,14 +40,16 @@ end
 
 local function Quary()
     local going_forward = true
-    local y_pos = 1
+    y_pos = 0
     turtle.forward()
-    dig("down")
     for y = 1, depth, 1 do
+
         turtle.down()
         dig("down")
         turtle.down()
         dig("down")
+        y_pos = y_pos + 2
+
         for x = 1, width, 1 do
             for z = 1, length - 1, 1 do
                 dig("forward")
@@ -55,6 +57,7 @@ local function Quary()
                 dig("up")
                 dig("down")
             end
+
             width = width + 0
             if x < width then
                 if going_forward then
@@ -62,15 +65,18 @@ local function Quary()
                 else
                     turtle.turnLeft()
                 end
+
                 dig("forward")
                 turtle.forward()
                 dig("up")
                 dig("down")
+
                 if going_forward then
                     turtle.turnRight()
                 else
                     turtle.turnLeft()
                 end
+
                 if going_forward then
                     going_forward = false
                 else
@@ -78,10 +84,12 @@ local function Quary()
                 end
             end
         end
-        turtle.turnRight()
-        turtle.turnRight()
         turtle.down()
-        y_pos = y_pos + 3
+        y_pos = y_pos + 1
+
+        turtle.turnRight()
+        turtle.turnRight()
+
         if y % 2 == 0 then
             for g = 1, y_pos, 1 do
                 turtle.up()
@@ -98,6 +106,7 @@ local function Quary()
                 turtle.down()
             end
         end
+        
     end
 end
 
