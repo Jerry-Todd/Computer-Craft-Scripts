@@ -1,4 +1,4 @@
-VERSION = "2"
+VERSION = "3"
 
 function Write_File(path, data)
     fs.delete(path)
