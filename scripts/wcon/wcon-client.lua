@@ -1,7 +1,7 @@
 while true do
     local modem = peripheral.find("modem") or error("No modem attached", 0)
     modem.open(16)
-
+    print("Waiting for command...")
     repeat
         event, side, channel, replyChannel, message, distance = os.pullEvent("modem_message")
     until channel == 16
@@ -10,7 +10,7 @@ while true do
     local inputIndex = 2
 
     local function inputHandler()
-        sleep(0.5)     -- Ensure `read()` is fully active
+        sleep(0.2)     -- Ensure `read()` is fully active
         while inputIndex <= #inputs do
             sleep(0.2) -- Ensure `read()` is fully active
 
