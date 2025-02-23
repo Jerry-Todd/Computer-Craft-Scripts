@@ -42,9 +42,8 @@ local function Quary()
     local going_forward = true
     y_pos = 0
     turtle.forward()
-    dig("down")
     for y = 1, depth, 1 do
-
+        dig("down")
         turtle.down()
         dig("down")
         turtle.down()
