@@ -41,6 +41,10 @@ print("Downloading Scripts")
 
 Github_Download("scripts/install/installer.lua", "scripts/install/installer.lua")
 
+-- indev 
+Github_Download("scripts/dev/wcon.lua", "scripts/dev/wcon.lua")
+
+-- production
 Github_Download("scripts/Quary.lua", "scripts/quary.lua")
 Github_Download("scripts/Digarea.lua", "scripts/digarea.lua")
 Github_Download("scripts/Treefarm.lua", "scripts/treefarm.lua")
