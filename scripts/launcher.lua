@@ -80,6 +80,7 @@ while true do
         term.clear()
         term.setCursorPos(1, 1)
         shell.run(options_path[Cursor])
+        if options[Cursor] == "Exit" then break end
         LoadPage()
     end
 end

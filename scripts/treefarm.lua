@@ -1,25 +1,19 @@
-
-function selectItem(item)
-    item = "minecraft:" .. item
+function SelectTreeItem(item_name)
     local itemdetail = turtle.getItemDetail()
-    if itemdetail ~= nil and itemdetail.name == item then
+    local name = itemdetail.name
+    if string.sub(name, -(#item_name + 1)) == item_name then
         return true
     end
     for i = 1, 16, 1 do
         turtle.select(i)
         itemdetail = turtle.getItemDetail()
-        if itemdetail ~= nil and itemdetail.name == item then
+        local name = itemdetail.name
+        if string.sub(name, -(#item_name + 1)) == item_name then
             return true
         end
     end
     return false
 end
-
-local treetypes = {
-    "oak",
-    "spruce",
-    "birch",
-}
 
 function IsLog()
     local isThere, data = turtle.inspect()
@@ -38,11 +32,10 @@ function Contains(list, value)
     return false
 end
 
-
-
+local height
 while (true) do
     repeat
-        if selectItem("bone_meal") then
+        if SelectTreeItem("meal") then
             turtle.place()
         end
     until IsLog()
@@ -57,7 +50,7 @@ while (true) do
         if turtle.detectDown() then turtle.digDown() end
         turtle.down()
     end
-    if selectItem() then
+    if SelectTreeItem("sapling") then
         turtle.place()
     end
 end
