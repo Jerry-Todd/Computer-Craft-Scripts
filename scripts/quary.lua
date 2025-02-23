@@ -103,6 +103,7 @@ local function Quary()
             end
             turtle.turnRight()
             if y == depth then
+                at_top = true
                 turtle.forward()
                 for g = 1, y_pos, 1 do
                     turtle.down()
@@ -110,8 +111,10 @@ local function Quary()
             end
         end
     end
-    for g = 1, y_pos, 1 do
-        turtle.up()
+    if not at_top then
+        for g = 1, y_pos, 1 do
+            turtle.up()
+        end
     end
 end
 
