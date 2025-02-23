@@ -1,3 +1,5 @@
+-- version: 1.0
+
 local term_width, term_height = term.getSize()
 local max_options = term_height / 2 - 2
 
@@ -26,9 +28,6 @@ for i = 1, 20 do
     table.insert(options_path, "")
 end
 
-term.clear()
-term.setCursorPos(2, 2)
-
 Cursor = 1
 Page = 1
 
@@ -37,11 +36,12 @@ function LoadPage()
     term.setCursorPos(2, 2)
     print("Launcher - Page " .. Page)
     for i = 1, max_options do
-        if options[i + (Page - 1) * max_options] == nil then
+        local o_num = (Page * max_options - 1) + i
+        if options[o_num] == nil then
             break
         end
         term.setCursorPos(4, 2 + i * 2)
-        print(string.sub(options[i + (Page - 1) * max_options], 1, #options[i + (Page - 1) * max_options] - 4))
+        print(string.sub(options[o_num], 1, #options[o_num] - 4))
     end
 end
 
@@ -51,7 +51,7 @@ end
 -- end
 
 function SetCursor(icon)
-    term.setCursorPos(2, 2 + (Cursor - (Page * max_options)) * 2)
+    term.setCursorPos(2, 2 + (Cursor - ((Page - 1) * max_options)) * 2)
     io.write(icon)
 end
 
