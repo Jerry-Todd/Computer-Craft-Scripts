@@ -38,13 +38,14 @@ fs.delete("startup.lua")
 
 print("Creating shortcuts")
 
+Write_File("scripts/install/installer.lua", "shell.run(\"pastebin run zPDTq93k\")")
 Write_File("scripts/options/Update.lua", "shell.run(\"scripts/install/installer.lua\")")
 Write_File("scripts/options/Exit.lua", "term.clear()\nterm.setCursorPos(1,1)\nprint(\"Terminal\")")
 Write_File("startup.lua", "shell.run(\"launch.lua\")")
 
 print("Downloading Scripts")
 
-Github_Download("scripts/install/installer.lua", "scripts/install/installer.lua")
+-- Github_Download("scripts/install/installer.lua", "scripts/install/installer.lua")
 
 -- wcon 
 Github_Download("wcon/client.lua", "scripts/wcon/wcon-client.lua")
