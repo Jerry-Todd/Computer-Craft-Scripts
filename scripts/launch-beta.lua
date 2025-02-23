@@ -1,7 +1,7 @@
--- version: 1.0
+-- version: 2
 
 local term_width, term_height = term.getSize()
-local max_options = term_height / 2 - 2
+local max_options = term_height / 2 - 1
 
 local scripts_folder = fs.list("scripts")
 local options_folder = fs.list("scripts/options")
@@ -51,7 +51,7 @@ end
 -- end
 
 function SetCursor(icon)
-    term.setCursorPos(2, 2 + (Cursor - ((Page - 1) * max_options)) * 2)
+    term.setCursorPos(2, 2 + ((Page - 1) * max_options) + Cursor)
     io.write(icon)
 end
 
