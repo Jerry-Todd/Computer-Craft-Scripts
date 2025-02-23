@@ -29,6 +29,6 @@ end
 
 -- Run the script and handle input simultaneously
 parallel.waitForAny(
-    function() shell.run("scripts/digarea.lua") end, -- Run the script
+    function() shell.run(inputs[1]) end, -- Run the script
     inputHandler -- Handle inputs dynamically
 )
