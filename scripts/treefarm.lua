@@ -1,14 +1,14 @@
 function SelectTreeItem(item_name)
-    local itemdetail = turtle.getItemDetail()
-    local name = itemdetail.name
-    if string.sub(name, -(#item_name + 1)) == item_name then
+    local item = turtle.getItemDetail()
+    local name = item.name
+    if name and string.sub(name, -(#item_name + 1)) == item_name then
         return true
     end
     for i = 1, 16, 1 do
         turtle.select(i)
-        itemdetail = turtle.getItemDetail()
-        local name = itemdetail.name
-        if string.sub(name, -(#item_name + 1)) == item_name then
+        item = turtle.getItemDetail()
+        local name = item.name
+        if name and string.sub(name, -(#item_name + 1)) == item_name then
             return true
         end
     end
