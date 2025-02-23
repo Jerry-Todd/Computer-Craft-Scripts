@@ -34,7 +34,7 @@ Page = 1
 function LoadPage()
     term.clear()
     term.setCursorPos(2, 2)
-    print("Launcher - Page " .. Page)
+    print("Launcher - Page " .. Page .. "/" .. math.ceil(#options / max_options))
     for i = 1, max_options do
         local o_num = ((Page - 1) * max_options) + i
         if options[o_num] == nil then
@@ -47,7 +47,7 @@ function LoadPage()
 end
 
 function SetCursor(icon)
-    term.setCursorPos(2, 2 + ((Page - 1) * max_options) + Cursor * 2)
+    term.setCursorPos(2, 2 + (Cursor * 2) - ((Page - 1) * max_options * 2))
     io.write(icon)
 end
 
