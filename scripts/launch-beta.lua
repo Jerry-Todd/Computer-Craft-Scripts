@@ -1,7 +1,7 @@
--- version: 4
+-- version: 5
 
 local term_width, term_height = term.getSize()
-local max_options = term_height / 2 - 1
+local max_options = math.floor(term_height / 2) - 1
 
 local options = {}
 local options_path = {}
