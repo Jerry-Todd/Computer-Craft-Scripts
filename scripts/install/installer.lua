@@ -60,4 +60,5 @@ term.setCursorPos(1, 1)
 
 print("Download complete.")
 print("Update shortcut created.")
+sleep(2)
 os.reboot()
