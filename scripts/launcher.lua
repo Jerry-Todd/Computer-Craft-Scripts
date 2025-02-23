@@ -15,6 +15,9 @@ for i, o in ipairs(options_folder) do
     end
 end
 
+table.insert(options, "Wcon Client")
+table.insert(options_path, "wcon/client.lua")
+
 for i, s in ipairs(scripts_folder) do
     if string.sub(s, -4) == ".lua" then
         table.insert(options, string.sub(s, 1, #s - 4))
