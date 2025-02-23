@@ -41,9 +41,9 @@ end
 local function Quary()
     local going_forward = true
     local at_top = false
-    y_pos = 0
+    local y_pos = 0
     turtle.forward()
-    for y = 1, depth, 1 do
+    for y = 1, depth do
         dig("down")
         turtle.down()
         dig("down")
@@ -51,8 +51,8 @@ local function Quary()
         dig("down")
         y_pos = y_pos + 2
 
-        for x = 1, width, 1 do
-            for z = 1, length - 1, 1 do
+        for x = 1, width do
+            for z = 1, length - 1 do
                 dig("forward")
                 turtle.forward()
                 dig("up")
@@ -95,6 +95,7 @@ local function Quary()
             for g = 1, y_pos, 1 do
                 turtle.up()
             end
+            at_top = true
             turtle.back()
             turtle.turnLeft()
             for slot = 1, 16 do
@@ -102,16 +103,16 @@ local function Quary()
                 turtle.drop()
             end
             turtle.turnRight()
-            if y == depth then
-                at_top = true
+            if y ~= depth then
                 turtle.forward()
                 for g = 1, y_pos, 1 do
                     turtle.down()
                 end
+                at_top = false
             end
         end
     end
-    if not at_top then
+    if at_top == false then
         for g = 1, y_pos, 1 do
             turtle.up()
         end
