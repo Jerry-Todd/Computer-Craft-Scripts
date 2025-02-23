@@ -30,6 +30,9 @@ term.clear()
 term.setCursorPos(1, 1)
 
 fs.delete("scripts")
+fs.delete("wcon")
+fs.delete("launch.lua")
+fs.delete("startup.lua")
 
 print("Creating shortcuts")
 
@@ -41,10 +44,11 @@ print("Downloading Scripts")
 
 Github_Download("scripts/install/installer.lua", "scripts/install/installer.lua")
 
--- indev 
-Github_Download("scripts/dev/wcon.lua", "scripts/dev/wcon.lua")
+-- wcon 
+Github_Download("wcon/client.lua", "scripts/wcon/wcon-client.lua")
+Github_Download("wcon/remote.lua", "scripts/wcon/wcon-remote.lua")
 
--- production
+-- scripts
 Github_Download("scripts/Quary.lua", "scripts/quary.lua")
 Github_Download("scripts/Digarea.lua", "scripts/digarea.lua")
 Github_Download("scripts/Treefarm.lua", "scripts/treefarm.lua")

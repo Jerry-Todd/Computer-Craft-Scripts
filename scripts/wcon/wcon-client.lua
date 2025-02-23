@@ -1,13 +1,24 @@
-local inputs = { "Steve", "18", "Blue" } -- Inputs to simulate
-local inputIndex = 1
+
+
+
+
+local modem = peripheral.find("modem") or error("No modem attached", 0)
+modem.open(16)
+
+repeat
+    event, side, channel, replyChannel, message, distance = os.pullEvent("modem_message")
+until channel == 16
+
+local inputs = textutils.unserialise(message) -- Inputs to simulate
+local inputIndex = 2
 
 local function inputHandler()
-    sleep(1) -- Ensure `read()` is fully active
+    sleep(0.5) -- Ensure `read()` is fully active
     while inputIndex <= #inputs do
-            sleep(1) -- Ensure `read()` is fully active
+            sleep(0.2) -- Ensure `read()` is fully active
 
             -- Queue characters for the current input
-            for char in inputs[inputIndex] do
+            for char in inputs[inputIndex]:gmatch(".") do
                 os.queueEvent("char", char)
             end
             os.queueEvent("key", keys.enter) -- Simulate pressing Enter
