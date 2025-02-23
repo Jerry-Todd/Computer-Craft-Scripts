@@ -32,6 +32,7 @@ term.setCursorPos(1, 1)
 fs.delete("scripts")
 fs.delete("wcon")
 fs.delete("launch.lua")
+fs.delete("launch-beta.lua")
 fs.delete("startup.lua")
 
 print("Creating shortcuts")
@@ -55,6 +56,8 @@ Github_Download("scripts/Treefarm.lua", "scripts/treefarm.lua")
 
 Github_Download("launch.lua", "scripts/launch.lua")
 Github_Download("launch-beta.lua", "scripts/launch-beta.lua")
+
+sleep(1)
 
 term.clear()
 term.setCursorPos(1, 1)
