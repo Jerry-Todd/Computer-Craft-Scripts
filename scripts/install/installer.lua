@@ -54,6 +54,7 @@ Github_Download("scripts/Digarea.lua", "scripts/digarea.lua")
 Github_Download("scripts/Treefarm.lua", "scripts/treefarm.lua")
 
 Github_Download("launch.lua", "scripts/launch.lua")
+Github_Download("launch-beta.lua", "scripts/launch-beta.lua")
 
 term.clear()
 term.setCursorPos(1, 1)
