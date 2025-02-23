@@ -15,7 +15,7 @@ end
 
 function IsLog()
     local isThere, data = turtle.inspect()
-    if Contains(treetypes, data.name .. "_log") then
+    if data and string.sub(data.name, -4) == "_log" then
         return true
     end
     return false
