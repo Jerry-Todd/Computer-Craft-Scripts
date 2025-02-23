@@ -1,12 +1,12 @@
 function SelectTreeItem(item_name)
     local item = turtle.getItemDetail()
-    if item and string.sub(item.name, -(#item_name + 1)) == item_name then
+    if item and string.sub(item.name, -(#item_name)) == item_name then
         return true
     end
     for i = 1, 16, 1 do
         turtle.select(i)
         item = turtle.getItemDetail()
-        if item and string.sub(item.name, -(#item_name + 1)) == item_name then
+        if item and string.sub(item.name, -(#item_name)) == item_name then
             return true
         end
     end
@@ -15,7 +15,7 @@ end
 
 function IsLog()
     local isThere, data = turtle.inspect()
-    if data and string.sub(data.name, -4) == "_log" then
+    if isThere and string.sub(data.name, -4) == "_log" then
         return true
     end
     return false
