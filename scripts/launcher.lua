@@ -80,8 +80,6 @@ while true do
         term.clear()
         term.setCursorPos(1, 1)
         shell.run(options_path[Cursor])
-        break
+        LoadPage()
     end
 end
-
-LoadPage()
