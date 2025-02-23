@@ -110,22 +110,30 @@ local function Quary()
     end
 end
 
-term.clear()
-term.setCursorPos(1, 2)
-print('[QUARY]')
-write('Depth (multplied by 3): ')
-depth = read()
-write('Width: ')
-width = read()
-write('Length: ')
-length = read()
-write('Total blocks to mine: ')
+-- term.clear()
+-- term.setCursorPos(1, 2)
+-- print('[QUARY]')
+-- write('Depth (multplied by 3): ')
+-- depth = read()
+-- write('Width: ')
+-- width = read()
+-- write('Length: ')
+-- length = read()
+-- write('Total blocks to mine: ')
+-- total = width * length * (depth * 3)
+-- print(total)
+-- write('Type "yes" to confirm: ')
+-- local confirm = read()
+-- term.clear()
+-- term.setCursorPos(1, 2)
+
+depth = 24
+width = 10
+length = 10
 total = width * length * (depth * 3)
-print(total)
-write('Type "yes" to confirm: ')
-local confirm = read()
-term.clear()
-term.setCursorPos(1, 2)
+
+local confirm = "yes"
+
 if confirm == "yes" then
     Quary()
     term.clear()
