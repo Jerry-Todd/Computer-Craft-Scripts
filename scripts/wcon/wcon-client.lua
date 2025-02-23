@@ -1,20 +1,17 @@
+while true do
+    local modem = peripheral.find("modem") or error("No modem attached", 0)
+    modem.open(16)
 
+    repeat
+        event, side, channel, replyChannel, message, distance = os.pullEvent("modem_message")
+    until channel == 16
 
+    local inputs = textutils.unserialise(message) -- Inputs to simulate
+    local inputIndex = 2
 
-
-local modem = peripheral.find("modem") or error("No modem attached", 0)
-modem.open(16)
-
-repeat
-    event, side, channel, replyChannel, message, distance = os.pullEvent("modem_message")
-until channel == 16
-
-local inputs = textutils.unserialise(message) -- Inputs to simulate
-local inputIndex = 2
-
-local function inputHandler()
-    sleep(0.5) -- Ensure `read()` is fully active
-    while inputIndex <= #inputs do
+    local function inputHandler()
+        sleep(0.5)     -- Ensure `read()` is fully active
+        while inputIndex <= #inputs do
             sleep(0.2) -- Ensure `read()` is fully active
 
             -- Queue characters for the current input
@@ -23,12 +20,13 @@ local function inputHandler()
             end
             os.queueEvent("key", keys.enter) -- Simulate pressing Enter
 
-            inputIndex = inputIndex + 1 -- Move to the next input
+            inputIndex = inputIndex + 1      -- Move to the next input
+        end
     end
-end
 
--- Run the script and handle input simultaneously
-parallel.waitForAny(
-    function() shell.run(inputs[1]) end, -- Run the script
-    inputHandler -- Handle inputs dynamically
-)
+    -- Run the script and handle input simultaneously
+    parallel.waitForAll(
+        function() shell.run(inputs[1]) end, -- Run the script
+        inputHandler                     -- Handle inputs dynamically
+    )
+end
