@@ -1,4 +1,3 @@
--- version: 5
 
 local term_width, term_height = term.getSize()
 local max_options = math.floor(term_height / 2) - 1
@@ -6,26 +5,21 @@ local max_options = math.floor(term_height / 2) - 1
 local options = {}
 local options_path = {}
 
--- local scripts_folder = fs.list("scripts")
--- local options_folder = fs.list("scripts/options")
+local scripts_folder = fs.list("scripts")
+local options_folder = fs.list("scripts/options")
 
--- for i, o in ipairs(options_folder) do
---     if string.sub(o, -4) == ".lua" then
---         table.insert(options, o)
---         table.insert(options_path, "scripts/options/" .. o)
---     end
--- end
+for i, o in ipairs(options_folder) do
+    if string.sub(o, -4) == ".lua" then
+        table.insert(options, string.sub(o, 1, #o - 4))
+        table.insert(options_path, "scripts/options/" .. o)
+    end
+end
 
--- for i, s in ipairs(scripts_folder) do
---     if string.sub(s, -4) == ".lua" then
---         table.insert(options, s)
---         table.insert(options_path, "scripts/" .. s)
---     end
--- end
-
-for i = 1, 20 do
-    table.insert(options, "dummy option " .. i)
-    table.insert(options_path, "")
+for i, s in ipairs(scripts_folder) do
+    if string.sub(s, -4) == ".lua" then
+        table.insert(options, string.sub(s, 1, #s - 4))
+        table.insert(options_path, "scripts/" .. s)
+    end
 end
 
 Cursor = 1

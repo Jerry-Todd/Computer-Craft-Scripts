@@ -1,3 +1,5 @@
+VERSION = "1"
+
 function Write_File(path, data)
     fs.delete(path)
 
@@ -32,7 +34,6 @@ term.setCursorPos(1, 1)
 fs.delete("scripts")
 fs.delete("wcon")
 fs.delete("launch.lua")
-fs.delete("launch-beta.lua")
 fs.delete("startup.lua")
 
 print("Creating shortcuts")
@@ -54,8 +55,7 @@ Github_Download("scripts/Quary.lua", "scripts/quary.lua")
 Github_Download("scripts/Digarea.lua", "scripts/digarea.lua")
 Github_Download("scripts/Treefarm.lua", "scripts/treefarm.lua")
 
-Github_Download("launch.lua", "scripts/launch.lua")
-Github_Download("launch-beta.lua", "scripts/launch-beta.lua")
+Github_Download("launch.lua", "scripts/launcher.lua")
 
 sleep(1)
 
@@ -64,4 +64,5 @@ term.setCursorPos(1, 1)
 
 print("Download complete.")
 print("Update shortcut created.")
+print("Version: " .. VERSION)
 sleep(2)
