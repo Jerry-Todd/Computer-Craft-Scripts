@@ -1,4 +1,4 @@
--- version: 2
+-- version: 3
 
 local term_width, term_height = term.getSize()
 local max_options = term_height / 2 - 1
@@ -41,7 +41,8 @@ function LoadPage()
             break
         end
         term.setCursorPos(4, 2 + i * 2)
-        print(string.sub(options[o_num], 1, #options[o_num] - 4))
+        -- print(string.sub(options[o_num], 1, #options[o_num] - 4))
+        print(options[o_num])
     end
 end
 
