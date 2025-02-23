@@ -24,7 +24,7 @@ while true do
         end
     end
 
-    -- Run the script and handle input simultaneously
+    -- Run the script and handle inputs in parallel
     parallel.waitForAll(
         function() shell.run(inputs[1]) end, -- Run the script
         inputHandler                     -- Handle inputs dynamically
