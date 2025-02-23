@@ -21,14 +21,14 @@ function IsLog()
     return false
 end
 
-function Contains(list, value)
-    for _, v in ipairs(list) do
-        if v == value then
-            return true
-        end
-    end
-    return false
-end
+-- function Contains(list, value)
+--     for _, v in ipairs(list) do
+--         if v == value then
+--             return true
+--         end
+--     end
+--     return false
+-- end
 
 local height
 while (true) do
