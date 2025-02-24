@@ -1,4 +1,4 @@
-VERSION = "5"
+VERSION = "6"
 
 function Write_File(path, data)
     fs.delete(path)
@@ -55,6 +55,7 @@ Github_Download("wcon/remote.lua", "scripts/wcon/wcon-remote.lua")
 Github_Download("scripts/Quary.lua", "scripts/quary.lua")
 Github_Download("scripts/Digarea.lua", "scripts/digarea.lua")
 Github_Download("scripts/Treefarm.lua", "scripts/treefarm.lua")
+Github_Download("scripts/Stripdig.lua", "scripts/stripdig.lua")
 
 Github_Download("launch.lua", "scripts/launcher.lua")
 
