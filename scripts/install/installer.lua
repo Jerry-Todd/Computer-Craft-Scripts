@@ -1,6 +1,6 @@
 Args = {...}
 
-VERSION = "7"
+VERSION = "8"
 MODE = "Turtle"
 
 function Write_File(path, data)
@@ -39,14 +39,14 @@ function TurtleDownload()
 
     print("Creating shortcuts")
 
-    Write_File("scripts/install/installer.lua", "shell.run(\"pastebin run zPDTq93k\")")
+    -- Write_File("scripts/install/installer.lua", "shell.run(\"pastebin run zPDTq93k\")")
     Write_File("scripts/options/Update.lua", "shell.run(\"scripts/install/installer.lua\")")
     Write_File("scripts/options/Exit.lua", "term.clear()\nterm.setCursorPos(1,1)\nprint(\"Terminal\")")
     Write_File("startup.lua", "shell.run(\"launch.lua\")")
 
     print("Downloading Scripts")
 
-    -- Github_Download("scripts/install/installer.lua", "scripts/install/installer.lua")
+    Github_Download("scripts/install/installer.lua", "scripts/install/installer.lua")
 
     -- wcon 
     Github_Download("wcon/client.lua", "scripts/wcon/wcon-client.lua")
@@ -65,9 +65,16 @@ function MobileDownload()
 
     fs.delete("wcon")
 
+    Write_File("scripts/options/Update.lua", "shell.run(\"scripts/install/installer.lua -m\")")
+    Write_File("scripts/options/Exit.lua", "term.clear()\nterm.setCursorPos(1,1)\nprint(\"Terminal\")")
+
     print("Downloading Scripts")
 
-    Write_File("scripts/install/installer.lua", "shell.run(\"pastebin run zPDTq93k -m\")")
+    -- Write_File("scripts/install/installer.lua", "shell.run(\"pastebin run zPDTq93k -m\")")
+
+    Github_Download("scripts/install/installer.lua", "scripts/install/installer.lua")
+
+    Github_Download("launch.lua", "scripts/launcher.lua")
 
     Github_Download("wcon/remote.lua", "scripts/wcon/wcon-remote.lua")
 
