@@ -1,3 +1,4 @@
+term.clear()
 while true do
     local modem = peripheral.find("modem") or error("No modem attached", 0)
     modem.open(16)
@@ -27,6 +28,6 @@ while true do
     -- Run the script and handle inputs in parallel
     parallel.waitForAll(
         function() shell.run(inputs[1]) end, -- Run the script
-        inputHandler                     -- Handle inputs dynamically
+        inputHandler                         -- Handle inputs dynamically
     )
 end
