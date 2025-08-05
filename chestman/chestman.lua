@@ -10,6 +10,8 @@ end
 local ButtonsResult = nil
 
 function Buttons()
+    local chests = { peripheral.find('minecraft:chest') }
+
     term.clear()
     term.setCursorPos(1, 1)
 
@@ -60,7 +62,7 @@ while true do
             local search = require("modules.search")
             search.Menu()
         elseif ButtonsResult == 'deposit' then
-            chests.DepositAll()
+            local chests = { peripheral.find('minecraft:chest') }
             parallel.waitForAny(
                 chests.DepositAll,
                 function ()

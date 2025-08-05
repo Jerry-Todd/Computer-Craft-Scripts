@@ -108,12 +108,9 @@ function M.DepositAll()
                 -- Refresh inventory in case item was partially moved
                 interfaceInv = interface.list()
                 if interfaceInv[slot] then -- Item still exists in this slot
-                    print("No matching chest found, trying first available chest")
-
                     for i, c in pairs(containers) do
                         local containerName = peripheral.getName(c)
                         local moved = interface.pushItems(containerName, slot)
-                        print("Moved:", moved, "items to first available chest:", containerName)
 
                         if moved > 0 then
                             totalDeposited = totalDeposited + moved
