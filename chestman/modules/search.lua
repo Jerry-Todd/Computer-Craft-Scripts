@@ -21,7 +21,7 @@ function M.Menu()
 
         term.setCursorPos(2, 4)
         term.write("> " .. searchText .. " ")
-        local x, y = term.getCursorPos()
+        local sx, sy = term.getCursorPos()
         term.setCursorBlink(true)
 
         term.setCursorPos(1, 6)
@@ -30,11 +30,12 @@ function M.Menu()
         for key, value in pairs(found_items) do
             print_count = print_count + 1
             if print_count > h - 5 then break end
-
-            print('     ' .. DisplayName(key) .. ' x' .. value)
+            local bx, by = term.getCursorPos()
+            print('          ' .. DisplayName(key) .. ' x' .. value)
+            gui.drawBox(bx + 1, by, 6, 'take')
         end
 
-        term.setCursorPos(x - 1, y)
+        term.setCursorPos(sx - 1, sy)
 
         local event, key = os.pullEvent()
 
@@ -72,15 +73,15 @@ function DisplayName(name)
     if colon_pos then
         display_key = string.sub(display_key, colon_pos + 1)
     end
-    
+
     -- Replace underscores with spaces
     display_key = string.gsub(display_key, "_", " ")
-    
+
     -- Capitalize the first letter
     if #display_key > 0 then
         display_key = string.upper(string.sub(display_key, 1, 1)) .. string.sub(display_key, 2)
     end
-    
+
     return display_key
 end
 
