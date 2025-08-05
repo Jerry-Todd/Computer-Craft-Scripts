@@ -61,8 +61,17 @@ function M.Menu()
 
         if event == "mouse_click" and key == 1 then
             for i, value in pairs(displayed_items) do
-                if gui.isClickInButton(x, y, 1, 5+i, 6) then
-                    chests.TakeItem(value)
+                if gui.isClickInButton(x, y, 1, 5 + i, 6) then
+                    local taken = chests.TakeItem(value)
+                    if taken > 0 then
+                        -- Update the items table
+                        if items[value] then
+                            items[value] = items[value] - taken
+                            if items[value] <= 0 then
+                                items[value] = nil -- Remove item completely if count is 0 or less
+                            end
+                        end
+                    end
                 end
             end
         end
