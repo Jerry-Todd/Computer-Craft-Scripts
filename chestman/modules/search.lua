@@ -50,12 +50,12 @@ function M.Menu()
 end
 
 function M.search(search_term)
-    local chests = require('chests')
+    local chests = require('modules.chests')
     local items = chests.GetAllItems()
     local filtered_items = {}
 
     for key, value in pairs(items) do
-        if string.find(search_term:lower(), search_term:lower()) then
+        if string.find(key:lower(), search_term:lower()) then
             filtered_items[key] = value
         end
     end
