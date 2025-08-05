@@ -31,7 +31,6 @@ function M.Menu()
         term.setCursorPos(2, 4)
         term.write("> " .. searchText .. " ")
         local x, y = term.getCursorPos()
-        term.setCursorPos(x - 1, y)
         term.setCursorBlink(true)
 
         term.setCursorPos(1, 6)
@@ -43,6 +42,7 @@ function M.Menu()
             print(' '..key..' x'..value)
         end
         
+        term.setCursorPos(x - 1, y)
 
     end
 
