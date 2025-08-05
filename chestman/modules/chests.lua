@@ -11,9 +11,9 @@ function M.getChests()
 end
 
 function M.getInterface()
-    local interface = peripheral.find('barrel')
+    local interface = peripheral.find('minecraft:barrel')
 
-    if #interface == 0 then
+    if not interface then
         error('No interface barrel connected', 0)
     end
 

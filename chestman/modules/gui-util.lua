@@ -1,20 +1,18 @@
-
 local M = {}
 
 -- Function to draw a button
 function M.drawBox(x, y, width, text, color, textcolor)
-
     text = text or ""
 
     term.setBackgroundColor(color or colors.gray)
     term.setTextColor(textcolor or colors.white)
     term.setCursorPos(x, y)
-    
+
     -- Draw button background
     local padding = math.floor((width - #text) / 2)
     local buttonText = string.rep(" ", padding) .. text .. string.rep(" ", width - padding - #text)
     term.write(buttonText)
-    
+
     term.setBackgroundColor(colors.black)
     term.setTextColor(colors.white)
 end
@@ -25,8 +23,29 @@ function M.isClickInButton(clickX, clickY, buttonX, buttonY, buttonWidth)
 end
 
 function M.seperator(s)
-    local w,h = term.getSize()
+    local w, h = term.getSize()
     print(string.rep('=', w))
+end
+
+function M.pendingMessage(message)
+    local x, y = term.getCursorPos()
+    while true do
+        term.setCursorPos(x, y)
+        term.write(message .. " [-   ]")
+        sleep(0.1)
+        term.setCursorPos(x, y)
+        term.write(message .. " [--  ]")
+        sleep(0.1)
+        term.setCursorPos(x, y)
+        term.write(message .. " [ -- ]")
+        sleep(0.1)
+        term.setCursorPos(x, y)
+        term.write(message .. " [  --]")
+        sleep(0.1)
+        term.setCursorPos(x, y)
+        term.write(message .. " [   -]")
+        sleep(0.1)
+    end
 end
 
 return M
