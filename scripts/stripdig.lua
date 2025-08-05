@@ -3,7 +3,7 @@
 term.clear()
 term.setCursorPos(1, 2)
 print('[STRIP DIG]')
-write('Will dig a 1 wide 3 tall tunnel forward')
+print('Will dig a 1 wide 3 tall tunnel forward')
 write('Distance: ')
 local distance = read()
 
