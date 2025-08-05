@@ -31,7 +31,11 @@ function M.Menu()
             print_count = print_count + 1
             if print_count > h - 5 then break end
             local bx, by = term.getCursorPos()
-            gui.drawBox(bx + 1, by, 6, 'take')
+            if print_count % 2 == 0 then
+                gui.drawBox(bx + 1, by, 6, 'take')
+            else
+                gui.drawBox(bx + 1, by, 6, 'take', colors.lightGray)
+            end
             term.setCursorPos(9, by)
             print(DisplayName(key) .. ' x' .. value)
         end
