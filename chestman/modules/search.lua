@@ -17,7 +17,7 @@ function M.Menu()
     gui.seperator('=')
 
     local searchText = ''
-    
+
     while true do
         local event, key = os.pullEvent()
 
@@ -34,6 +34,11 @@ function M.Menu()
             end
         end
 
+        term.clear()
+        term.setCursorPos(1, 1)
+        print("Chestman - Search")
+        gui.seperator('=')
+        
         term.setCursorPos(2, 4)
         term.write("> " .. searchText .. " ")
         local x, y = term.getCursorPos()
@@ -43,15 +48,13 @@ function M.Menu()
         local found_items = M.search(searchText, items)
         local print_count = 0
         for key, value in pairs(found_items) do
-            print_count = print_count+1
-            if print_count > h-5 then break end
-            print(' '..key..' x'..value)
+            print_count = print_count + 1
+            if print_count > h - 5 then break end
+            print(' ' .. key .. ' x' .. value)
         end
-        
+
         term.setCursorPos(x - 1, y)
-
     end
-
 end
 
 function M.search(search_term, items)
