@@ -2,12 +2,12 @@
 local M = {}
 
 -- Function to draw a button
-function M.drawBox(x, y, width, text, color)
+function M.drawBox(x, y, width, text, color, textcolor)
 
     text = text or ""
 
     term.setBackgroundColor(color or colors.gray)
-    term.setTextColor(colors.white)
+    term.setTextColor(textcolor or colors.white)
     term.setCursorPos(x, y)
     
     -- Draw button background
