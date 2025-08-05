@@ -20,7 +20,7 @@ function Github_Download(path, githubPath)
         file = file.readAll()
         -- print("Github / Got file: " .. githubPath)
         Write_File(path, file)
-        print(" - " .. path)
+        -- print(" - " .. path)
     else
         print("Github / Cant get file: " .. githubPath)
     end
@@ -43,7 +43,7 @@ Github_Download("chestman/modules/search.lua", "chestman/modules/search.lua")
 
 print("Installing chestman...")
 
-Write_File("update.lua", "shell.run(\"launch.lua\")")
+Write_File("update.lua", "shell.run(\"pastebin run S8Le2YvJ\")")
 
 sleep(1)
 
