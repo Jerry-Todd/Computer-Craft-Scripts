@@ -14,14 +14,17 @@ function M.GetAllItems()
     local containers = M.getChests()
     local items = {}
     for i, c in pairs(containers) do
-        local chestName = peripheral.getName(c)
-        print(" - Chest: " .. chestName)
-        local items = c.list()
-        for slot, item in pairs(items) do
-            print("  Slot " .. slot .. ": " .. item.name .. " x" .. item.count)
+        local list = c.list()
+        for slot, item in pairs(list) do
+            local key = item.name
+            if items[key] then
+                items[key] = items[key] + item.count
+            else
+                items[key] = item.count
+            end
         end
-        print() -- Empty line for better readability between chests
     end
+    return items
 end
 
 return M
