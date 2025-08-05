@@ -27,6 +27,7 @@ function M.Menu()
         term.setCursorPos(1, 6)
         local found_items = M.search(searchText, items)
         local print_count = 0
+        local displayed_items = {}
         for key, value in pairs(found_items) do
             print_count = print_count + 1
             if print_count > h - 5 then break end
@@ -38,11 +39,12 @@ function M.Menu()
             end
             term.setCursorPos(9, by)
             print(DisplayName(key) .. ' x' .. value)
+            table.insert(displayed_items, key)
         end
 
         term.setCursorPos(sx - 1, sy)
 
-        local event, key = os.pullEvent()
+        local event, key, x, y = os.pullEvent()
 
         if event == 'char' then
             if key == 'space' then
@@ -54,6 +56,14 @@ function M.Menu()
         if event == 'key' then
             if keys.getName(key) == 'backspace' then
                 searchText = searchText:sub(1, #searchText - 1)
+            end
+        end
+
+        if event == "mouse_click" and key == 1 then
+            for i, value in pairs(displayed_items) do
+                if gui.isClickInButton(x, y, 1, 5+i, 6) then
+                    chests.TakeItem(value)
+                end
             end
         end
     end

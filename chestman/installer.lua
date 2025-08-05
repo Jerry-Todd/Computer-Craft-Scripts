@@ -33,11 +33,9 @@ fs.delete("chestman")
 
 print("Downloading chestman...")
 
--- files
 Github_Download("chestman/chestman.lua", "chestman/chestman.lua")
 Github_Download("chestman/test.lua", "chestman/test.lua")
 Github_Download("chestman/modules/chests.lua", "chestman/modules/chests.lua")
-Github_Download("chestman/modules/deposit.lua", "chestman/modules/deposit.lua")
 Github_Download("chestman/modules/gui-util.lua", "chestman/modules/gui-util.lua")
 Github_Download("chestman/modules/search.lua", "chestman/modules/search.lua")
 
