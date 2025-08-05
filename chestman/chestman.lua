@@ -50,20 +50,19 @@ end
 
 function Info()
     return
-    sleep(1000)
+        sleep(1000)
 end
 
--- while true do
+while true do
+    parallel.waitForAny(Buttons, Info)
 
-parallel.waitForAny(Buttons, Info)
-
-if ButtonsResult then
-    if ButtonsResult == 'search' then
-        local search = require("modules.search")
-        search.Menu()
-    elseif ButtonsResult == 'deposit' then
-
+    if ButtonsResult then
+        if ButtonsResult == 'search' then
+            local search = require("modules.search")
+            search.Menu()
+        elseif ButtonsResult == 'deposit' then
+            local chests = require("modules.chests")
+            chests.DepositAll()
+        end
     end
 end
-
--- end

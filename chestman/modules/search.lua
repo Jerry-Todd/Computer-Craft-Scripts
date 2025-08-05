@@ -19,7 +19,8 @@ function M.Menu()
         print("Chestman - Search")
         gui.seperator('=')
 
-        term.setCursorPos(2, 4)
+        gui.drawBox(2, 4, 6, 'back')
+        term.setCursorPos(9, 4)
         term.write("> " .. searchText .. " ")
         local sx, sy = term.getCursorPos()
         term.setCursorBlink(true)
@@ -60,6 +61,11 @@ function M.Menu()
         end
 
         if event == "mouse_click" and key == 1 then
+
+            if gui.isClickInButton(x, y, 2, 4, 6) then
+                return
+            end
+
             for i, value in pairs(displayed_items) do
                 if gui.isClickInButton(x, y, 1, 5 + i, 6) then
                     term.setCursorBlink(false)

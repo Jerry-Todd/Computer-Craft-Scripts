@@ -1,6 +1,6 @@
 local M = {}
 
-function M.getChests()
+function M.GetChests()
     local containers = { peripheral.find('minecraft:chest') }
 
     if #containers == 0 then
@@ -10,7 +10,7 @@ function M.getChests()
     return containers
 end
 
-function M.getInterface()
+function M.GetInterface()
     local interface = peripheral.find('minecraft:barrel')
 
     if not interface then
@@ -21,7 +21,7 @@ function M.getInterface()
 end
 
 function M.GetAllItems()
-    local containers = M.getChests()
+    local containers = M.GetChests()
     local items = {}
     for i, c in pairs(containers) do
         local list = c.list()
@@ -38,20 +38,20 @@ function M.GetAllItems()
 end
 
 function M.TakeItem(targetItem, quantity)
-    local containers = M.getChests()
-    local interface = M.getInterface()
+    local containers = M.GetChests()
+    local interface = M.GetInterface()
     local interfaceName = peripheral.getName(interface)
     local totalMoved = 0
-    
+
     quantity = quantity or 64
-    
+
     for i, c in pairs(containers) do
         if totalMoved >= quantity then break end
-        
+
         local list = c.list()
         for slot, item in pairs(list) do
             if totalMoved >= quantity then break end
-            
+
             if item.name == targetItem then
                 local toMove = math.min(item.count, quantity - totalMoved)
                 local moved = c.pushItems(interfaceName, slot, toMove)
@@ -59,8 +59,45 @@ function M.TakeItem(targetItem, quantity)
             end
         end
     end
-    
+
     return totalMoved
+end
+
+function M.DepositAll()
+    local containers = M.GetChests()
+    local interface = M.GetInterface()
+    local interfaceName = peripheral.getName(interface)
+    local totalDeposited = 0
+
+    local interfaceInv = interface.list()
+
+    -- For each item in the interface barrel
+    for slot, item in pairs(interfaceInv) do
+        local itemName = item.name
+        local remaining = item.count
+        
+        -- Try to find chests that already contain this item type
+        for i, c in pairs(containers) do
+            if remaining <= 0 then break end
+            
+            local chestInv = c.list()
+            local containerName = peripheral.getName(c)
+            
+            -- Check if this chest already has this item type
+            for chestSlot, chestItem in pairs(chestInv) do
+                if chestItem.name == itemName then
+                    -- Found a chest with the same item, try to deposit here
+                    local moved = interface.pushItems(containerName, slot, remaining)
+                    remaining = remaining - moved
+                    totalDeposited = totalDeposited + moved
+                    
+                    if remaining <= 0 then break end
+                end
+            end
+        end
+    end
+    
+    return totalDeposited
 end
 
 return M
