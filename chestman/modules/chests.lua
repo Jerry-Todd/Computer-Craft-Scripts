@@ -12,6 +12,7 @@ end
 
 function M.GetAllItems()
     local containers = M.getChests()
+    local items = {}
     for i, c in pairs(containers) do
         local chestName = peripheral.getName(c)
         print(" - Chest: " .. chestName)
