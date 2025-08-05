@@ -2,7 +2,7 @@ local w, h = term.getSize()
 
 local gui = require("modules.gui-util")
 
-local chests = { peripheral.find('chest') }
+local chests = { peripheral.find('minecraft:chest') }
 
 if #chests == 0 then
     error('No containers connected', 0)
