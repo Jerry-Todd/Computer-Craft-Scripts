@@ -43,7 +43,7 @@ Github_Download("chestman/modules/search.lua", "chestman/modules/search.lua")
 
 print("Installing chestman...")
 
-Write_File("update.lua", "shell.run(\"pastebin run S8Le2YvJ\")")
+Write_File("chestman/update.lua", "shell.run(\"pastebin run STjXEg7T\")")
 
 sleep(1)
 
