@@ -4,6 +4,12 @@ function M.Menu()
     local w, h = term.getSize()
     local gui = require("modules.gui-util")
 
+    term.setCursorPos(2, 4)
+    term.write('Loading...')
+
+    local chests = require('modules.chests')
+    local items = chests.GetAllItems()
+
     term.clear()
     term.setCursorPos(1, 1)
 
@@ -11,7 +17,7 @@ function M.Menu()
     gui.seperator('=')
 
     local searchText = ''
-
+    
     while true do
         local event, key = os.pullEvent()
 
@@ -34,7 +40,7 @@ function M.Menu()
         term.setCursorBlink(true)
 
         term.setCursorPos(1, 6)
-        local found_items = M.search(searchText)
+        local found_items = M.search(searchText, items)
         local print_count = 0
         for key, value in pairs(found_items) do
             print_count = print_count+1
@@ -46,12 +52,9 @@ function M.Menu()
 
     end
 
-    sleep(20)
 end
 
-function M.search(search_term)
-    local chests = require('modules.chests')
-    local items = chests.GetAllItems()
+function M.search(search_term, items)
     local filtered_items = {}
 
     for key, value in pairs(items) do
