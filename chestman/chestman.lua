@@ -62,7 +62,12 @@ while true do
             search.Menu()
         elseif ButtonsResult == 'deposit' then
             local chests = require("modules.chests")
-            chests.DepositAll()
+            parallel.waitForAny(
+                chests.DepositAll,
+                function ()
+                    gui.pendingMessage('Depositing')
+                end
+            )
         end
     end
 end
