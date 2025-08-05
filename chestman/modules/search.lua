@@ -4,41 +4,21 @@ function M.Menu()
     local w, h = term.getSize()
     local gui = require("modules.gui-util")
 
+    term.clear()
+    term.setCursorPos(1, 1)
     term.setCursorPos(2, 4)
     term.write('Loading...')
 
     local chests = require('modules.chests')
     local items = chests.GetAllItems()
-
-    term.clear()
-    term.setCursorPos(1, 1)
-
-    print("Chestman - Search")
-    gui.seperator('=')
-
     local searchText = ''
 
     while true do
-        local event, key = os.pullEvent()
-
-        if event == 'char' then
-            if key == 'space' then
-                searchText = searchText .. ''
-            end
-            searchText = searchText .. key
-        end
-
-        if event == 'key' then
-            if keys.getName(key) == 'backspace' then
-                searchText = searchText:sub(1, #searchText - 1)
-            end
-        end
-
         term.clear()
         term.setCursorPos(1, 1)
         print("Chestman - Search")
         gui.seperator('=')
-        
+
         term.setCursorPos(2, 4)
         term.write("> " .. searchText .. " ")
         local x, y = term.getCursorPos()
@@ -54,6 +34,21 @@ function M.Menu()
         end
 
         term.setCursorPos(x - 1, y)
+
+        local event, key = os.pullEvent()
+
+        if event == 'char' then
+            if key == 'space' then
+                searchText = searchText .. ''
+            end
+            searchText = searchText .. key
+        end
+
+        if event == 'key' then
+            if keys.getName(key) == 'backspace' then
+                searchText = searchText:sub(1, #searchText - 1)
+            end
+        end
     end
 end
 
