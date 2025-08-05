@@ -30,7 +30,8 @@ function M.Menu()
         for key, value in pairs(found_items) do
             print_count = print_count + 1
             if print_count > h - 5 then break end
-            print(' ' .. key .. ' x' .. value)
+
+            print('     ' .. DisplayName(key) .. ' x' .. value)
         end
 
         term.setCursorPos(x - 1, y)
@@ -56,12 +57,31 @@ function M.search(search_term, items)
     local filtered_items = {}
 
     for key, value in pairs(items) do
-        if string.find(key:lower(), search_term:lower()) then
+        if string.find(DisplayName(key):lower(), search_term:lower()) then
             filtered_items[key] = value
         end
     end
 
     return filtered_items
+end
+
+function DisplayName(name)
+    -- Remove everything before the colon (:) in the item name
+    local display_key = name
+    local colon_pos = string.find(display_key, ":")
+    if colon_pos then
+        display_key = string.sub(display_key, colon_pos + 1)
+    end
+    
+    -- Replace underscores with spaces
+    display_key = string.gsub(display_key, "_", " ")
+    
+    -- Capitalize the first letter
+    if #display_key > 0 then
+        display_key = string.upper(string.sub(display_key, 1, 1)) .. string.sub(display_key, 2)
+    end
+    
+    return display_key
 end
 
 return M
