@@ -1,7 +1,6 @@
 local w, h = term.getSize()
 
 local gui = require("modules.gui-util")
-
 local chests = { peripheral.find('minecraft:chest') }
 
 if #chests == 0 then
@@ -61,10 +60,12 @@ while true do
             local search = require("modules.search")
             search.Menu()
         elseif ButtonsResult == 'deposit' then
-            local chests = require("modules.chests")
+            chests.DepositAll()
             parallel.waitForAny(
                 chests.DepositAll,
                 function ()
+                    term.clear()
+                    term.setCursorPos(2,2)
                     gui.pendingMessage('Depositing')
                 end
             )

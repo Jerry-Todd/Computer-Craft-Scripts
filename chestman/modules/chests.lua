@@ -66,37 +66,69 @@ end
 function M.DepositAll()
     local containers = M.GetChests()
     local interface = M.GetInterface()
-    local interfaceName = peripheral.getName(interface)
     local totalDeposited = 0
 
-    local interfaceInv = interface.list()
+    -- Keep trying until no more items can be moved
+    local itemsMoved = true
+    while itemsMoved do
+        itemsMoved = false
+        local interfaceInv = interface.list()
 
-    -- For each item in the interface barrel
-    for slot, item in pairs(interfaceInv) do
-        local itemName = item.name
-        local remaining = item.count
-        
-        -- Try to find chests that already contain this item type
-        for i, c in pairs(containers) do
-            if remaining <= 0 then break end
-            
-            local chestInv = c.list()
-            local containerName = peripheral.getName(c)
-            
-            -- Check if this chest already has this item type
-            for chestSlot, chestItem in pairs(chestInv) do
-                if chestItem.name == itemName then
-                    -- Found a chest with the same item, try to deposit here
-                    local moved = interface.pushItems(containerName, slot, remaining)
-                    remaining = remaining - moved
-                    totalDeposited = totalDeposited + moved
-                    
-                    if remaining <= 0 then break end
+        -- For each item in the interface barrel
+        for slot, item in pairs(interfaceInv) do
+            local itemName = item.name
+            local itemCount = item.count
+
+            -- First, try to find chests that already contain this item type
+            local foundMatchingChest = false
+            for i, c in pairs(containers) do
+                local chestInv = c.list()
+                local containerName = peripheral.getName(c)
+
+                -- Check if this chest already has this item type
+                for chestSlot, chestItem in pairs(chestInv) do
+                    if chestItem.name == itemName then
+                        -- Found a chest with the same item, try to deposit here
+                        local moved = interface.pushItems(containerName, slot)
+
+                        if moved > 0 then
+                            totalDeposited = totalDeposited + moved
+                            itemsMoved = true
+                            foundMatchingChest = true
+                            break -- Break out of chest slot loop
+                        end
+                    end
+                end
+
+                if foundMatchingChest then break end -- Break out of chest loop if we moved something
+            end
+
+            -- If no matching chest found or item still exists, try first available chest
+            if not foundMatchingChest then
+                -- Refresh inventory in case item was partially moved
+                interfaceInv = interface.list()
+                if interfaceInv[slot] then -- Item still exists in this slot
+                    print("No matching chest found, trying first available chest")
+
+                    for i, c in pairs(containers) do
+                        local containerName = peripheral.getName(c)
+                        local moved = interface.pushItems(containerName, slot)
+                        print("Moved:", moved, "items to first available chest:", containerName)
+
+                        if moved > 0 then
+                            totalDeposited = totalDeposited + moved
+                            itemsMoved = true
+                            break -- Break out of chest loop
+                        end
+                    end
                 end
             end
+
+            if itemsMoved then break end -- Break out of interface slot loop if we moved something
         end
     end
-    
+
+    print("Total deposited:", totalDeposited)
     return totalDeposited
 end
 
