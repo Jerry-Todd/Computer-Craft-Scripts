@@ -1,6 +1,7 @@
 local w, h = term.getSize()
 
 local gui = require("modules.gui-util")
+local chestsModule = require("modules.chests")
 local chests = { peripheral.find('minecraft:chest') }
 
 if #chests == 0 then
@@ -10,8 +11,6 @@ end
 local ButtonsResult = nil
 
 function Buttons()
-    local chests = { peripheral.find('minecraft:chest') }
-
     term.clear()
     term.setCursorPos(1, 1)
 
@@ -62,9 +61,8 @@ while true do
             local search = require("modules.search")
             search.Menu()
         elseif ButtonsResult == 'deposit' then
-            local chests = { peripheral.find('minecraft:chest') }
             parallel.waitForAny(
-                chests.DepositAll,
+                chestsModule.DepositAll,
                 function ()
                     term.clear()
                     term.setCursorPos(2,2)
