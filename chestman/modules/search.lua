@@ -5,12 +5,15 @@ function M.Menu()
     local gui = require("modules.gui-util")
 
     term.clear()
-    term.setCursorPos(1, 1)
-    term.setCursorPos(2, 4)
-    term.write('Loading...')
+    term.setCursorPos(2, 2)
 
     local chests = require('modules.chests')
-    local items = chests.GetAllItems()
+    local items
+    parallel.waitForAny(function ()
+        gui.pendingMessage('Loading')
+    end, function ()
+        items = chests.GetAllItems()
+    end)
     local searchText = ''
 
     while true do

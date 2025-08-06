@@ -46,6 +46,7 @@ function Buttons()
 end
 
 function Info()
+    local hasUpdated = false
     while true do
         local containers = chests.GetChests()
 
@@ -53,22 +54,32 @@ function Info()
         term.clearLine()
         print(' - Chests: ' .. #containers)
 
-        local storage = 0
-        local used_storage = 0
-        for i, c in pairs(containers) do
-            storage = storage + (c.size() * 64)
-            local list = c.list()
-            for slot, item in pairs(list) do
-                used_storage = used_storage + item.count
+        local storage, used_storage = 0, 0
+
+        parallel.waitForAny(function()
+            for i, c in pairs(containers) do
+                storage = storage + (c.size() * 64)
+                local list = c.list()
+                for slot, item in pairs(list) do
+                    used_storage = used_storage + item.count
+                end
             end
-        end
+        end, function()
+            term.setCursorPos(2, 9)
+            if not hasUpdated then
+                gui.pendingMessage('Loading')
+            end
+            sleep(600)
+        end)
 
+        term.setCursorPos(1, 9)
         term.clearLine()
-        print(' - Storage: '.. math.floor((used_storage/storage)*100) ..'%')
+        print(' - Storage: ' .. math.floor((used_storage / storage) * 100) .. '%')
         term.clearLine()
-        print(' - Items: '..used_storage..'/'..storage)
+        print(' - Items: ' .. used_storage .. '/' .. storage)
 
-        sleep(1)
+        hasUpdated = true
+        sleep(3)
     end
 end
 
