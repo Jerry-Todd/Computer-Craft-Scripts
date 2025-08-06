@@ -4,7 +4,7 @@ local gui = require("modules.gui-util")
 local chests = require("modules.chests")
 
 chests.GetChests()
--- chests.GetInterface()
+chests.GetInterface()
 
 local ButtonsResult = nil
 
