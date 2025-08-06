@@ -47,21 +47,25 @@ end
 
 function Info()
     while true do
+        local containers = chests.GetChests()
+
         term.setCursorPos(2, 8)
         term.clearLine()
-        print(' - Chests: ' .. #chests)
+        print(' - Chests: ' .. #containers)
 
         local storage = 0
         local used_storage = 0
-        for i, c in pairs(chests.GetChests()) do
-            storage = storage + (chests.size() * 64)
+        for i, c in pairs(containers) do
+            storage = storage + (c.size() * 64)
             local list = c.list()
             for slot, item in pairs(list) do
                 used_storage = used_storage + item.count
             end
         end
 
+        term.clearLine()
         print(' - Storage: '..used_storage/storage ..'%')
+        term.clearLine()
         print(' - Items: '..used_storage..'/'..storage)
 
         sleep(1)
