@@ -31,7 +31,7 @@ function M.Menu()
         local displayed_items = {}
         for key, value in pairs(found_items) do
             print_count = print_count + 1
-            if print_count > h - 5 then break end
+            if print_count > h - 6 then break end
             local bx, by = term.getCursorPos()
             if print_count % 2 == 0 then
                 gui.drawBox(bx + 1, by, 6, 'take')

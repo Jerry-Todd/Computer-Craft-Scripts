@@ -49,7 +49,7 @@ function Info()
     while true do
         local containers = chests.GetChests()
 
-        term.setCursorPos(2, 8)
+        term.setCursorPos(1, 8)
         term.clearLine()
         print(' - Chests: ' .. #containers)
 
