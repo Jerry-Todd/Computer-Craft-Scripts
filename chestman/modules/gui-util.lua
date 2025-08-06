@@ -45,6 +45,9 @@ function M.pendingMessage(message)
         term.setCursorPos(x, y)
         term.write(message .. " [   -]")
         sleep(0.1)
+        term.setCursorPos(x, y)
+        term.write(message .. " [    ]")
+        sleep(0.1)
     end
 end
 
