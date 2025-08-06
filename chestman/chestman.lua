@@ -64,7 +64,7 @@ function Info()
         end
 
         term.clearLine()
-        print(' - Storage: '..used_storage/storage ..'%')
+        print(' - Storage: '.. math.foor((used_storage/storage)*100)/100 ..'%')
         term.clearLine()
         print(' - Items: '..used_storage..'/'..storage)
 
