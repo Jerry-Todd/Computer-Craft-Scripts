@@ -63,6 +63,7 @@ function M.Menu()
         if event == "mouse_click" and key == 1 then
 
             if gui.isClickInButton(x, y, 2, 4, 6) then
+                term.setCursorBlink(false)
                 return
             end
 

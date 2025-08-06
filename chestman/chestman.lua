@@ -1,16 +1,15 @@
 local w, h = term.getSize()
 
 local gui = require("modules.gui-util")
-local chestsModule = require("modules.chests")
-local chests = { peripheral.find('minecraft:chest') }
+local chests = require("modules.chests")
 
-if #chests == 0 then
-    error('No containers connected', 0)
-end
+chests.GetChests()
+-- chests.GetInterface()
 
 local ButtonsResult = nil
 
 function Buttons()
+    term.getCursorBlink(false)
     term.clear()
     term.setCursorPos(1, 1)
 
@@ -24,8 +23,6 @@ function Buttons()
     gui.drawBox((w / 2) + 2, 4, (w / 2) - 1)
     gui.drawBox((w / 2) + 2, 5, (w / 2) - 1, "Deposit all")
     gui.drawBox((w / 2) + 2, 6, (w / 2) - 1)
-
-    term.setCursorPos(1, 8)
 
     while true do
         local event, b, x, y = os.pullEvent("mouse_click")
@@ -49,8 +46,26 @@ function Buttons()
 end
 
 function Info()
-    return
-        sleep(1000)
+    while true do
+        term.setCursorPos(2, 8)
+        term.clearLine()
+        print(' - Chests: ' .. #chests)
+
+        local storage = 0
+        local used_storage = 0
+        for i, c in pairs(chests.GetChests()) do
+            storage = storage + (chests.size() * 64)
+            local list = c.list()
+            for slot, item in pairs(list) do
+                used_storage = used_storage + item.count
+            end
+        end
+
+        print(' - Storage: '..used_storage/storage ..'%')
+        print(' - Items: '..used_storage..'/'..storage)
+
+        sleep(1)
+    end
 end
 
 while true do
@@ -62,10 +77,10 @@ while true do
             search.Menu()
         elseif ButtonsResult == 'deposit' then
             parallel.waitForAny(
-                chestsModule.DepositAll,
-                function ()
+                chests.DepositAll,
+                function()
                     term.clear()
-                    term.setCursorPos(2,2)
+                    term.setCursorPos(2, 2)
                     gui.pendingMessage('Depositing')
                 end
             )
