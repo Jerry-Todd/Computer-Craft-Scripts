@@ -1,9 +1,11 @@
 local M = {}
 
+M.isDev = false
+
 function M.GetChests()
     local containers = { peripheral.find('minecraft:chest') }
 
-    if #containers == 0 then
+    if not M.isDev and #containers == 0 then
         error('No containers connected', 0)
     end
 
@@ -13,7 +15,7 @@ end
 function M.GetInterface()
     local interface = peripheral.find('minecraft:barrel')
 
-    if not interface then
+    if not M.isDev and not interface then
         error('No interface barrel connected', 0)
     end
 
@@ -66,7 +68,6 @@ end
 function M.DepositAll()
     local containers = M.GetChests()
     local interface = M.GetInterface()
-    local totalDeposited = 0
 
     -- Keep trying until no more items can be moved
     local itemsMoved = true
@@ -92,7 +93,6 @@ function M.DepositAll()
                         local moved = interface.pushItems(containerName, slot)
 
                         if moved > 0 then
-                            totalDeposited = totalDeposited + moved
                             itemsMoved = true
                             foundMatchingChest = true
                             break -- Break out of chest slot loop
@@ -113,7 +113,6 @@ function M.DepositAll()
                         local moved = interface.pushItems(containerName, slot)
 
                         if moved > 0 then
-                            totalDeposited = totalDeposited + moved
                             itemsMoved = true
                             break -- Break out of chest loop
                         end
@@ -124,9 +123,6 @@ function M.DepositAll()
             if itemsMoved then break end -- Break out of interface slot loop if we moved something
         end
     end
-
-    print("Total deposited:", totalDeposited)
-    return totalDeposited
 end
 
 return M
