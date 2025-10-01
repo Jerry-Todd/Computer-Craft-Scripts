@@ -1,0 +1,14 @@
+{
+    "Lua.workspace.library": [
+        "${workspaceFolder}"
+    ],
+    "Lua.workspace.maxPreload": 5000,
+    "Lua.workspace.preloadFileSize": 500,
+    "Lua.workspace.ignoreDir": [
+        ".git",
+        "node_modules",
+        ".vscode"
+    ],
+    "Lua.workspace.checkThirdParty": false,
+    "Lua.telemetry.enable": false
+}

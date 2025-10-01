@@ -6,25 +6,12 @@ if not fs.exists("basalt") then
     shell.run("wget run https://raw.githubusercontent.com/Pyroxenium/Basalt2/main/install.lua -r")
 end
 local basalt = require("basalt")
-
-function DisplayName(name)
-    -- Remove everything before the colon (:) in the item name
-    local display_key = name
-    local colon_pos = string.find(display_key, ":")
-    if colon_pos then
-        display_key = string.sub(display_key, colon_pos + 1)
-    end
-
-    -- Replace underscores with spaces
-    display_key = string.gsub(display_key, "_", " ")
-
-    -- Capitalize the first letter
-    if #display_key > 0 then
-        display_key = string.upper(string.sub(display_key, 1, 1)) .. string.sub(display_key, 2)
-    end
-
-    return display_key
+-- Import BoxelAPI
+if not fs.exists("boxelAPI") then
+    print('Boxel API not found, installing...')
+    shell.run("wget https://raw.githubusercontent.com/Jerry-Todd/Computer-Craft-Scripts/refs/heads/main/Boxel/boxelAPI.lua")
 end
+local API = require("boxelAPI")
 
 -- Main GUI
 local function mainMenu(frame)
@@ -104,7 +91,7 @@ local function searchMenu(frame)
     local function listItems(searchTerm)
         -- Filter items
         local filtered_items = {}
-        for key, value in pairs(items) do
+        for key, value in pairs(API.GetItems()) do
             if string.find(DisplayName(key):lower(), searchTerm:lower()) then
                 filtered_items[key] = value
             end
@@ -140,37 +127,6 @@ local function searchMenu(frame)
         listItems(text)
     end)
 end
-
--- temp fake items
-items = {
-    Gold = 24,
-    Iron = 24,
-    Diamond = 24,
-    Emerald = 24,
-    Coal = 24,
-    Redstone = 16,
-    Lapis = 32,
-    Copper = 20,
-    Netherite = 2,
-    Quartz = 18,
-    Amethyst = 12,
-    Obsidian = 8,
-    Sand = 64,
-    Gravel = 64,
-    Oak_Wood = 48,
-    Spruce_Wood = 36,
-    Birch_Wood = 40,
-    Apple = 10,
-    Carrot = 25,
-    Potato = 30,
-    Wheat = 50,
-    String = 22,
-    Gunpowder = 15,
-    Bone = 19,
-    Leather = 14,
-    Ender_Pearl = 5,
-    Blaze_Rod = 7,
-}
 
 -- Init frame
 local f_main = basalt.getMainFrame()

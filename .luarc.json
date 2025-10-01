@@ -1,0 +1,44 @@
+{
+    "workspace": {
+        "library": [
+            "${workspaceFolder}"
+        ],
+        "maxPreload": 5000,
+        "preloadFileSize": 500,
+        "ignoreDir": [
+            ".git",
+            "node_modules",
+            ".vscode"
+        ],
+        "checkThirdParty": false
+    },
+    "telemetry": {
+        "enable": false
+    },
+    "completion": {
+        "enable": true,
+        "callSnippet": "Both",
+        "keywordSnippet": "Both"
+    },
+    "diagnostics": {
+        "enable": true,
+        "globals": [
+            "turtle",
+            "peripheral",
+            "redstone",
+            "term",
+            "shell",
+            "fs",
+            "os",
+            "textutils",
+            "http",
+            "vector",
+            "bit",
+            "bit32",
+            "colors",
+            "colours",
+            "keys",
+            "paintutils"
+        ]
+    }
+}
