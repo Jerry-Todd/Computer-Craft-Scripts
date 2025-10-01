@@ -1,7 +1,10 @@
+local args = {...}
+
 local w, h = term.getSize()
 
 local gui = require("modules.gui-util")
 local chests = require("modules.chests")
+if args[1] == 'dev' then chests.isDev = true end
 
 chests.GetChests()
 chests.GetInterface()
