@@ -28,6 +28,7 @@ local function mainMenu(frame)
         :setForeground(colors.white)
         :setPosition(W - 3, 1)
         :onClick(function()
+            basalt.stop()
             os.exit()
         end)
 
@@ -56,6 +57,13 @@ end
 local function searchMenu(frame)
     frame:setPosition(1, 3)
         :setSize(W, H - 2)
+
+    local debug = frame:addLabel()
+        :setText("")
+        :setPosition(1,1)
+        :setSize(W, 1)
+        :setBackground(colors.black)
+        :setForeground(colors.red)
 
     frame:addButton()
         :setText("Deposit")
@@ -89,11 +97,12 @@ local function searchMenu(frame)
         :setBackground(colors.black)
 
     local function listItems(searchTerm)
+        debug:setText(tostring(#API.GetItems()))
         -- Filter items
         local filtered_items = {}
         for key, value in pairs(API.GetItems()) do
-            if string.find(DisplayName(key):lower(), searchTerm:lower()) then
-                filtered_items[key] = value
+            if string.find(API.DisplayName(key):lower(), searchTerm:lower()) then
+                filtered_items[key] = value.total
             end
         end
         local y = 0
@@ -102,7 +111,7 @@ local function searchMenu(frame)
         scrollFrame:clear()
         for name, count in pairs(filtered_items) do
             y = y + 1
-            local text = name .. " x" .. count
+            local text = API.DisplayName(name) .. " x" .. count
             local button = scrollFrame:addButton()
                 :setText("Take")
                 :setSize(6, 1)
@@ -138,4 +147,5 @@ local f_search = f_main:addFrame()
 searchMenu(f_search)
 
 -- Start Basalt
+parallel.waitForAll(basalt.run, API.WatchChests)
 basalt.run()

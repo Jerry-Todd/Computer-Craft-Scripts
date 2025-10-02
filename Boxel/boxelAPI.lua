@@ -1,8 +1,9 @@
 local M = {}
 
 Items = {}
+ItemsBasic = {}
 ChestCache = {}
-Chests = {peripheral.find('minecraft:chest')}
+Chests = { peripheral.find('minecraft:chest') }
 
 -- Item data template
 -- {
@@ -16,6 +17,14 @@ Chests = {peripheral.find('minecraft:chest')}
 --     }
 -- }
 
+-- Create basic item list
+function M.ItemList()
+    ItemsBasic = nil
+    for i, item in ipairs(Items) do
+        ItemsBasic[item] = item.count
+    end
+end
+
 -- Read chest and store items
 local function GetChestItemData(chest, ID)
     -- Remove all existing data for this chest from items array
@@ -27,7 +36,7 @@ local function GetChestItemData(chest, ID)
             end
             -- Remove this chest's data
             itemData.chests[ID] = nil
-            
+
             -- If no chests remain for this item, remove the item entirely
             if next(itemData.chests) == nil then
                 Items[itemName] = nil
@@ -62,12 +71,18 @@ end
 
 -- Watch chests for changes
 function M.WatchChests()
-    for i, chest in pairs(Chests) do
-        local chest_data = textutils.serialiseJSON(chest.list())
-        local cache_data = textutils.serialiseJSON(ChestCache[i])
-        if chest_data ~= cache_data then
-            GetChestItemData(chest, i)
-            ChestCache[i] = chest.list()
+    while true do
+        for i, chest in pairs(Chests) do
+            local chest_data = textutils.serialiseJSON(chest.list())
+            local cache_data = {}
+            if ChestCache[i] then
+                cache_data = textutils.serialiseJSON(ChestCache[i])
+            end
+
+            if chest_data ~= cache_data then
+                GetChestItemData(chest, i)
+                ChestCache[i] = chest.list()
+            end
         end
     end
 end
@@ -78,18 +93,18 @@ function M.TakeStack(name)
     if not Items[name] then
         return nil, "Item not found"
     end
-    
+
     local itemData = Items[name]
     local targetAmount = 64 -- Standard stack size
     local takenAmount = 0
     local takenFrom = {}
-    
+
     -- Loop through chests that contain this item
     for chestID, slots in pairs(itemData.chests) do
         if takenAmount >= targetAmount then
             break -- We've taken enough
         end
-        
+
         local chest = Chests[chestID]
         if chest then
             -- Loop through slots in this chest
@@ -97,20 +112,20 @@ function M.TakeStack(name)
                 if takenAmount >= targetAmount then
                     break
                 end
-                
+
                 local needed = targetAmount - takenAmount
                 local toTake = math.min(needed, count)
-                
+
                 -- Attempt to take items from this slot
                 local taken = chest.pushItems("top", slot, toTake)
                 if taken > 0 then
                     takenAmount = takenAmount + taken
-                    table.insert(takenFrom, {chest = chestID, slot = slot, amount = taken})
+                    table.insert(takenFrom, { chest = chestID, slot = slot, amount = taken })
                 end
             end
         end
     end
-    
+
     -- Let WatchChests() handle updating the Items array when it detects the changes
     return takenAmount, takenFrom
 end
