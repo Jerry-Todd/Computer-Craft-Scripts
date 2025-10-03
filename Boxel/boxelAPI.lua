@@ -16,6 +16,8 @@ Items = {}
 ItemsBasic = {}
 ChestCache = {}
 Chests = { peripheral.find('minecraft:chest') }
+-- ChestCount = #Chests
+-- ChestCountCache = ChestCount
 Log(#Chests)
 
 local Interface = peripheral.getName(peripheral.find('minecraft:barrel'))
@@ -77,6 +79,10 @@ end
 
 -- Watch chests for changes
 function M.CheckChests(onChange)
+    -- if ChestCount ~= ChestCountCache then
+    --     Items = {}
+    --     ChestCache = {}
+    -- end
     for i, chest in pairs(Chests) do
         local chest_data = textutils.serialiseJSON(chest.list())
         local cache_data = ""
@@ -84,10 +90,10 @@ function M.CheckChests(onChange)
             cache_data = textutils.serialiseJSON(ChestCache[i])
         end
         if chest_data ~= cache_data then
-            -- print("Chest "..i.." changed")
+            Log("chest update")
             GetChestItemData(chest, i)
             ChestCache[i] = chest.list()
-            if onChange then onChange() end -- Call the callback
+            if onChange then onChange() end
         end
     end
 end
@@ -106,39 +112,33 @@ function M.TakeStack(name)
     local targetAmount = 64 -- Standard stack size
     local takenAmount = 0
 
-    -- Loop through chests that contain this item
+    -- Use stored locations in Items table directly
     for chestID, slots in pairs(itemData.chests) do
-        Log(chestID)
         if takenAmount >= targetAmount then
             Log('enough')
             break -- We've taken enough
         end
-
-        local chest = Chests[chestID]
-        if chest then
-            Log('chest exists')
-            -- Loop through slots in this chest
+        local chest = Chests[tonumber(chestID)]
+        local chestName = peripheral.getName(chest)
+        if chest and chestName then
             for slot, count in pairs(slots) do
-                Log('slot '..slot)
                 if takenAmount >= targetAmount then
                     Log('Done with chest early')
                     break
                 end
-
                 local needed = targetAmount - takenAmount
                 local toTake = math.min(needed, count)
-
-                -- Attempt to take items from this slot
-                local taken = chest.pushItems(Interface, slot, toTake)
-                Log(taken)
+                -- Use peripheral.call to transfer items
+                local taken = chest.pushItems(Interface, tonumber(slot), toTake)
+                -- local taken = peripheral.call(chestName, "pushItems", Interface, tonumber(slot), toTake)
+                Log('chest: '..chestName..' slot: '..slot..' toTake: '..toTake..' taken: '..tostring(taken))
                 if taken > 0 then
-                    Log('Items taken successfully')
                     takenAmount = takenAmount + taken
                 end
             end
         end
     end
-    Log(takenAmount)
+    Log('Total taken: '..takenAmount)
     -- Let WatchChests() handle updating the Items array when it detects the changes
     return takenAmount
 end

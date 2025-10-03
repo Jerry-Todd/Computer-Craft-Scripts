@@ -85,7 +85,6 @@ function SearchMenu(frame)
         :setBackground(colors.black)
 
     function listItems(searchTerm)
-        
         -- Filter items
         local filtered_items = {}
         for key, value in pairs(API.GetItems()) do
@@ -105,8 +104,9 @@ function SearchMenu(frame)
                 :setText("Take")
                 :setSize(6, 1)
                 :setPosition(1, y)
-                :onClick(function ()
+                :onClick(function()
                     API.TakeStack(name)
+                    listItems(Search.text)
                 end)
             if y % 2 == 1 then
                 button:setBackground(colors.lightGray)
@@ -143,11 +143,16 @@ local listItems = SearchMenu(f_search)
 parallel.waitForAny(
     basalt.run,
     function()
-        while true do 
+        while true do
             API.CheckChests(function()
                 listItems(Search.text)
-            end)  
+            end)
+        end
+    end,
+    function()
+        while true do
+            sleep(0.25)
+            listItems(Search.text)
         end
     end
 )
-
