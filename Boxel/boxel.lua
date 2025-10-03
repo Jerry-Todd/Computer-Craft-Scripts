@@ -9,7 +9,8 @@ local basalt = require("basalt")
 -- Import BoxelAPI
 if not fs.exists("boxelAPI") then
     print('Boxel API not found, installing...')
-    shell.run("wget https://raw.githubusercontent.com/Jerry-Todd/Computer-Craft-Scripts/refs/heads/main/Boxel/boxelAPI.lua")
+    shell.run(
+        "wget https://raw.githubusercontent.com/Jerry-Todd/Computer-Craft-Scripts/refs/heads/main/Boxel/boxelAPI.lua")
 end
 local API = require("boxelAPI")
 
@@ -60,7 +61,7 @@ local function searchMenu(frame)
 
     local debug = frame:addLabel()
         :setText("")
-        :setPosition(1,1)
+        :setPosition(1, 1)
         :setSize(W, 1)
         :setBackground(colors.black)
         :setForeground(colors.red)
@@ -96,39 +97,51 @@ local function searchMenu(frame)
         :setSize(W - 2, H - 6)
         :setBackground(colors.black)
 
-    local function listItems(searchTerm)
-        debug:setText(tostring(#API.GetItems()))
-        -- Filter items
-        local filtered_items = {}
-        for key, value in pairs(API.GetItems()) do
-            if string.find(API.DisplayName(key):lower(), searchTerm:lower()) then
-                filtered_items[key] = value.total
-            end
-        end
-        local y = 0
+    local debug2 = scrollFrame:addLabel()
+        :setPosition(1, 1)
+        :setSize(W - 2, H - 6)
+        :setForeground(colors.yellow)
 
-        -- Display items
-        scrollFrame:clear()
-        for name, count in pairs(filtered_items) do
-            y = y + 1
-            local text = API.DisplayName(name) .. " x" .. count
-            local button = scrollFrame:addButton()
-                :setText("Take")
-                :setSize(6, 1)
-                :setPosition(1, y)
-            if y % 2 == 1 then
-                button:setBackground(colors.lightGray)
-                    :setForeground(colors.black)
-            else
-                button:setBackground(colors.gray)
-                    :setForeground(colors.white)
-            end
-            scrollFrame:addLabel()
-                :setText(text)
-                :setSize(#text, 1)
-                :setPosition(8, y)
-                :setForeground(colors.white)
+    local function listItems(searchTerm)
+        local chests = API.GetChests()
+        local chestCount = #chests
+        local itemCount = 0
+        for _ in pairs(API.GetItems()) do
+            itemCount = itemCount + 1
         end
+        debug2:setText("Chests: " .. chestCount .. ", Items: " .. itemCount)
+
+        -- -- Filter items
+        -- local filtered_items = {}
+        -- for key, value in pairs(API.GetItems()) do
+        --     if string.find(DisplayName(key):lower(), searchTerm:lower()) then
+        --         filtered_items[key] = value.count
+        --     end
+        -- end
+        -- local y = 0
+
+        -- -- Display items
+        -- scrollFrame:clear()
+        -- for name, count in pairs(filtered_items) do
+        --     y = y + 1
+        --     local text = name .. " x" .. count
+        --     local button = scrollFrame:addButton()
+        --         :setText("Take")
+        --         :setSize(6, 1)
+        --         :setPosition(1, y)
+        --     if y % 2 == 1 then
+        --         button:setBackground(colors.lightGray)
+        --             :setForeground(colors.black)
+        --     else
+        --         button:setBackground(colors.gray)
+        --             :setForeground(colors.white)
+        --     end
+        --     scrollFrame:addLabel()
+        --         :setText(text)
+        --         :setSize(#text, 1)
+        --         :setPosition(8, y)
+        --         :setForeground(colors.white)
+        -- end
     end
 
     listItems("")
@@ -146,6 +159,13 @@ mainMenu(f_main)
 local f_search = f_main:addFrame()
 searchMenu(f_search)
 
--- Start Basalt
-parallel.waitForAll(basalt.run, API.WatchChests)
-basalt.run()
+-- Initialize chest data
+API.WatchChests()
+
+-- Start Basalt with continuous monitoring
+parallel.waitForAny(
+    basalt.run,
+    function()
+        API.WatchChests()
+    end
+)
