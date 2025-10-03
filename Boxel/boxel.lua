@@ -1,13 +1,13 @@
 W, H = term.getSize()
 
 -- Import Basalt
-if not fs.exists("basalt") then
+if not fs.exists("basalt.lua") then
     print('Basalt not found, installing...')
     shell.run("wget run https://raw.githubusercontent.com/Pyroxenium/Basalt2/main/install.lua -r")
 end
 local basalt = require("basalt")
 -- Import BoxelAPI
-if not fs.exists("boxelAPI") then
+if not fs.exists("boxelAPI.lua") then
     print('Boxel API not found, installing...')
     shell.run(
         "wget https://raw.githubusercontent.com/Jerry-Todd/Computer-Craft-Scripts/refs/heads/main/Boxel/boxelAPI.lua")
@@ -15,7 +15,7 @@ end
 local API = require("boxelAPI")
 
 -- Main GUI
-local function mainMenu(frame)
+function MainMenu(frame)
     frame:addLabel()
         :setText("Boxel - ")
         :setPosition(1, 1)
@@ -30,22 +30,16 @@ local function mainMenu(frame)
         :setPosition(W - 3, 1)
         :onClick(function()
             basalt.stop()
+            sleep(0.1)
             os.exit()
         end)
 
     frame:addButton()
         :setText("Search")
         :setSize(6, 1)
-        :setBackground(colors.cyan)
+        :setBackground(colors.blue)
         :setForeground(colors.white)
         :setPosition(9, 1)
-
-    -- frame:addButton()
-    --     :setText("Info")
-    --     :setPosition(16, 1)
-    --     :setSize(4, 1)
-    --     :setBackground(colors.blue)
-    --     :setForeground(colors.white)
 
     frame:addLabel()
         :setText(string.rep("=", W))
@@ -55,16 +49,9 @@ local function mainMenu(frame)
 end
 
 -- Search GUI
-local function searchMenu(frame)
+function SearchMenu(frame)
     frame:setPosition(1, 3)
         :setSize(W, H - 2)
-
-    local debug = frame:addLabel()
-        :setText("")
-        :setPosition(1, 1)
-        :setSize(W, 1)
-        :setBackground(colors.black)
-        :setForeground(colors.red)
 
     frame:addButton()
         :setText("Deposit")
@@ -73,7 +60,7 @@ local function searchMenu(frame)
         :setBackground(colors.gray)
         :setForeground(colors.white)
 
-    local search = frame:addInput()
+    Search = frame:addInput()
         :setPosition(2, 2)
         :setSize(W - 15, 1)
         :setForeground(colors.white)
@@ -89,7 +76,7 @@ local function searchMenu(frame)
         :setBackground(colors.red)
         :setForeground(colors.white)
         :onClick(function()
-            search:setText("")
+            Search:setText("")
         end)
 
     local scrollFrame = frame:addFrame()
@@ -97,16 +84,13 @@ local function searchMenu(frame)
         :setSize(W - 2, H - 6)
         :setBackground(colors.black)
 
-    
-
-    local function listItems(searchTerm)
+    function listItems(searchTerm)
         
-        debug:setText(tostring(#API.GetItems()))
-
         -- Filter items
         local filtered_items = {}
         for key, value in pairs(API.GetItems()) do
-            if string.find(API.DisplayName(key):lower(), searchTerm:lower()) then
+            local prettyName = API.DisplayName(key)
+            if string.find(prettyName:lower(), searchTerm:lower()) then
                 filtered_items[key] = value.total
             end
         end
@@ -116,11 +100,14 @@ local function searchMenu(frame)
         scrollFrame:clear()
         for name, count in pairs(filtered_items) do
             y = y + 1
-            local text = name .. " x" .. count
+            local text = API.DisplayName(name) .. " x" .. count
             local button = scrollFrame:addButton()
                 :setText("Take")
                 :setSize(6, 1)
                 :setPosition(1, y)
+                :onClick(function ()
+                    API.TakeStack(name)
+                end)
             if y % 2 == 1 then
                 button:setBackground(colors.lightGray)
                     :setForeground(colors.black)
@@ -136,29 +123,31 @@ local function searchMenu(frame)
         end
     end
 
-    listItems(search.text)
-    search:onChange("text", function(self, text)
+    listItems(Search.text)
+    Search:onChange("text", function(self, text)
         listItems(text)
     end)
+    return listItems
 end
 
 -- Init frame
 local f_main = basalt.getMainFrame()
 f_main:setBackground(colors.black)
-mainMenu(f_main)
+MainMenu(f_main)
 
 -- Init search GUI
 local f_search = f_main:addFrame()
-searchMenu(f_search)
-
--- Initialize chest data
-API.WatchChests()
+local listItems = SearchMenu(f_search)
 
 -- Start Basalt with continuous monitoring
 parallel.waitForAny(
     basalt.run,
     function()
-        while true do API.WatchChests() end
+        while true do 
+            API.CheckChests(function()
+                listItems(Search.text)
+            end)  
+        end
     end
 )
 
