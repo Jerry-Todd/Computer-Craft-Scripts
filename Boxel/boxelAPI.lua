@@ -46,26 +46,17 @@ local function GetChestItemData(chest, ID)
 
     -- Loop through items in chest
     local list = chest.list()
+    -- print(textutils.serialiseJSON(list))
     for slot, item in pairs(list) do
         local key = item.name
-        if Items[key] then
-            -- If item exists add the location and update total
-            Items[key].total = Items[key].total + item.count
-            if not Items[key].chests[ID] then
-                Items[key].chests[ID] = {}
-            end
-            Items[key].chests[ID][slot] = item.count
-        else
-            -- Create item data if not present
-            Items[key] = {
-                total = item.count,
-                chests = {
-                    [ID] = {
-                        [slot] = item.count
-                    }
-                }
-            }
+        if not Items[key] then
+            Items[key] = { total = 0, chests = {} }
         end
+        Items[key].total = Items[key].total + item.count
+        if not Items[key].chests[tostring(ID)] then
+            Items[key].chests[tostring(ID)] = {}
+        end
+        Items[key].chests[tostring(ID)][tostring(slot)] = item.count
     end
 end
 
@@ -78,6 +69,7 @@ function M.WatchChests()
             cache_data = textutils.serialiseJSON(ChestCache[i])
         end
         if chest_data ~= cache_data then
+            -- print("Chest "..i.." changed")
             GetChestItemData(chest, i)
             ChestCache[i] = chest.list()
         end
