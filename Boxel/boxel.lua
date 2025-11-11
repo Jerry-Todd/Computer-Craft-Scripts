@@ -53,19 +53,25 @@ function SearchMenu(frame)
     frame:setPosition(1, 3)
         :setSize(W, H - 2)
 
-    frame:addButton()
+    Deposit = frame:addButton()
         :setText("Deposit")
         :setPosition(W - 9, 2)
         :setSize(9, 1)
         :setBackground(colors.gray)
         :setForeground(colors.white)
+        :onClick(function()
+            Deposit:setForeground(colors.yellow)
+            Deposit:setText("Working")
+            API.DepositAll()
+            Deposit:setForeground(colors.white)
+            Deposit:setText("Deposit")
+        end)
 
     Search = frame:addInput()
         :setPosition(2, 2)
         :setSize(W - 15, 1)
         :setForeground(colors.white)
         :setBackground(colors.gray)
-        :setFocusedBackground(colors.gray)
         :setPlaceholder("search...")
         :setPlaceholderColor(colors.lightGray)
 
@@ -87,12 +93,35 @@ function SearchMenu(frame)
     function listItems(searchTerm)
         -- Filter items
         local filtered_items = {}
+        local items = API.GetItems()
+
+        if not items or next(items) == nil then
+            scrollFrame:clear()
+            scrollFrame:addLabel()
+                :setText("Storage is empty")
+                :setSize(20, 1)
+                :setPosition(1, 1)
+                :setForeground(colors.white)
+            return
+        end
+
         for key, value in pairs(API.GetItems()) do
             local prettyName = API.DisplayName(key)
             if string.find(prettyName:lower(), searchTerm:lower()) then
                 filtered_items[key] = value.total
             end
         end
+
+        if not filtered_items or next(filtered_items) == nil then
+            scrollFrame:clear()
+            scrollFrame:addLabel()
+                :setText("Nothing found")
+                :setSize(20, 1)
+                :setPosition(1, 1)
+                :setForeground(colors.white)
+            return
+        end
+
         local y = 0
 
         -- Display items

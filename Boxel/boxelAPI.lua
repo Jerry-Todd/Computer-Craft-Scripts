@@ -3,12 +3,16 @@ local monitor = peripheral.find("monitor")
 monitor.setTextScale(0.5)
 monitor.clear()
 monitor.setCursorPos(1, 1)
+logline = 0
 function Log(m)
     local og = term.current()
     term.redirect(monitor)
-    print(m)
+    logline = logline + 1
+    print(logline .. ' ' .. tostring(m))
     term.redirect(og)
 end
+
+
 
 local M = {}
 
@@ -16,8 +20,6 @@ Items = {}
 ItemsBasic = {}
 ChestCache = {}
 Chests = { peripheral.find('minecraft:chest') }
--- ChestCount = #Chests
--- ChestCountCache = ChestCount
 Log(#Chests)
 
 local Interface = peripheral.getName(peripheral.find('minecraft:barrel'))
@@ -79,11 +81,12 @@ end
 
 -- Watch chests for changes
 function M.CheckChests(onChange)
-    -- if ChestCount ~= ChestCountCache then
-    --     Items = {}
-    --     ChestCache = {}
-    -- end
+    -- Create a copy of Chests to avoid issues if it changes during iteration
+    local ChestsCopy = {}
     for i, chest in pairs(Chests) do
+        ChestsCopy[i] = chest
+    end
+    for i, chest in pairs(ChestsCopy) do
         local chest_data = textutils.serialiseJSON(chest.list())
         local cache_data = ""
         if ChestCache[i] then
@@ -143,6 +146,72 @@ function M.TakeStack(name)
     return takenAmount
 end
 
+-- Deposit all item
+function M.DepositAll()
+    local interfacePeripheral = peripheral.wrap(Interface)
+    if not interfacePeripheral then
+        Log('Interface not found')
+        return 0
+    end
+    
+    local totalDeposited = 0
+    
+    -- Keep looping until the interface is empty
+    while true do
+        local interfaceItems = interfacePeripheral.list()
+        local hasItems = false
+        
+        -- Check each slot in the interface
+        for slot, item in pairs(interfaceItems) do
+            hasItems = true
+            local itemName = item.name
+            local deposited = false
+            
+            -- First, try to deposit in chests that already have this item
+            if Items[itemName] and Items[itemName].chests then
+                for chestID, chestSlots in pairs(Items[itemName].chests) do
+                    local moved = interfacePeripheral.pushItems(peripheral.getName(Chests[tonumber(chestID)]), tonumber(slot))
+                    if moved and moved > 0 then
+                        Log('Deposited '..tostring(moved)..' '..itemName..' into chest '..tostring(chestID))
+                        totalDeposited = totalDeposited + moved
+                        deposited = true
+                        break
+                    end
+                end
+            end
+            
+            -- If not deposited yet, try any available chest
+            if not deposited then
+                for id, chest in ipairs(Chests) do
+                    local chestName = peripheral.getName(chest)
+                    if chestName then
+                        local moved = interfacePeripheral.pushItems(chestName, tonumber(slot))
+                        if moved and moved > 0 then
+                            Log('Deposited '..tostring(moved)..' '..itemName..' into chest '..tostring(id))
+                            totalDeposited = totalDeposited + moved
+                            deposited = true
+                            break
+                        end
+                    end
+                end
+            end
+            
+            -- If still couldn't deposit, the storage is full
+            if not deposited then
+                Log('Storage full! Could not deposit '..itemName)
+            end
+        end
+        
+        -- If no items were found in the interface, we're done
+        if not hasItems then
+            break
+        end
+    end
+    
+    Log('Total deposited: '..totalDeposited)
+    return totalDeposited
+end
+
 -- Makes item name pretty
 function M.DisplayName(name)
     -- Remove everything before the colon (:) in the item name
@@ -169,6 +238,10 @@ function M.GetItems()
 end
 
 function M.GetChestCache()
+    return ChestCache
+end
+
+function M.ClearCache()
     return ChestCache
 end
 
