@@ -1,18 +1,20 @@
 
 local monitor = peripheral.find("monitor")
-monitor.setTextScale(0.5)
-monitor.clear()
-monitor.setCursorPos(1, 1)
-logline = 0
-function Log(m)
-    local og = term.current()
-    term.redirect(monitor)
-    logline = logline + 1
-    print(logline .. ': ' .. tostring(m))
-    term.redirect(og)
+if monitor then
+    monitor.setTextScale(0.5)
+    monitor.clear()
+    monitor.setCursorPos(1, 1)
+    logline = 0
+    function Log(m)
+        local og = term.current()
+        term.redirect(monitor)
+        logline = logline + 1
+        print(logline .. ': ' .. tostring(m))
+        term.redirect(og)
+    end
+else
+    function Log(m) end
 end
-
-
 
 local M = {}
 
