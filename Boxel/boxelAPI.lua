@@ -8,7 +8,7 @@ function Log(m)
     local og = term.current()
     term.redirect(monitor)
     logline = logline + 1
-    print(logline .. ' ' .. tostring(m))
+    print(logline .. ': ' .. tostring(m))
     term.redirect(og)
 end
 
@@ -242,7 +242,7 @@ function M.GetChestCache()
 end
 
 function M.ClearCache()
-    return ChestCache
+    ChestCache = {}
 end
 
 function M.GetChests()

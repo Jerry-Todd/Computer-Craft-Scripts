@@ -35,11 +35,40 @@ function MainMenu(frame)
         end)
 
     frame:addButton()
+        :setText("Reload")
+        :setSize(6, 1)
+        :setBackground(colors.gray)
+        :setForeground(colors.white)
+        :setPosition(W - 10, 1)
+        :onClick(function()
+            API.ClearCache()
+        end)
+
+    local b_stats = frame:addButton()
+        :setText("Info")
+        :setSize(4, 1)
+        :setBackground(colors.gray)
+        :setForeground(colors.white)
+        :setPosition(16, 1)
+
+    local b_search = frame:addButton()
         :setText("Search")
         :setSize(6, 1)
         :setBackground(colors.blue)
         :setForeground(colors.white)
         :setPosition(9, 1)
+
+    b_stats:onClick(function()
+        SelectTab(F_stats)
+        b_stats:setBackground(colors.blue)
+        b_search:setBackground(colors.gray)
+    end)
+
+    b_search:onClick(function() 
+        SelectTab(F_search)
+        b_search:setBackground(colors.blue)
+        b_stats:setBackground(colors.gray)
+    end)
 
     frame:addLabel()
         :setText(string.rep("=", W))
@@ -159,14 +188,66 @@ function SearchMenu(frame)
     return listItems
 end
 
+-- Info GUI
+function InfoMenu(frame)
+    frame:setPosition(1, 3)
+        :setSize(W, H - 2)
+
+    local basaltCredit = frame:addLabel()
+        :setText("GUI powered by Basalt 2")
+        :setSize(40,1)
+    basaltCredit:setPosition(W - #basaltCredit.text, H - 2)
+
+    frame:addLabel()
+        :setText("Storage:")
+        :setPosition(2,2)
+        :setSize(40,1)
+
+    frame:addLabel()
+        :setText("Chest count: " .. #API.GetChests())
+        :setPosition(3,4)
+        :setSize(40,1)
+
+    local stats = frame:addLabel()
+        :setText("Estimated usage: Loading...")
+        :setPosition(3,6)
+        :setSize(40,1)
+    
+    local slots = frame:addLabel()
+        :setText("Total slots: Loading...")
+        :setPosition(3,8)
+        :setSize(40,1)
+
+    local used_slots = frame:addLabel()
+        :setText("Used slots: Loading...")
+        :setPosition(3,10)
+        :setSize(40,1)
+
+    return {stats, slots, used_slots}
+end
+
+-- Tab switching
+function SelectTab(frame)
+    F_search:setSize(0, H - 2)
+    F_stats:setSize(0, H - 2)
+
+    frame:setSize(W, H - 2)
+end
+
 -- Init frame
-local f_main = basalt.getMainFrame()
-f_main:setBackground(colors.black)
-MainMenu(f_main)
+F_main = basalt.getMainFrame()
+F_main:setBackground(colors.black)
+MainMenu(F_main)
 
 -- Init search GUI
-local f_search = f_main:addFrame()
-local listItems = SearchMenu(f_search)
+F_search = F_main:addFrame()
+local listItems = SearchMenu(F_search)
+
+-- Init stats GUI
+F_stats = F_main:addFrame()
+local stats = InfoMenu(F_stats)
+
+SelectTab(F_search)
 
 -- Start Basalt with continuous monitoring
 parallel.waitForAny(
@@ -183,5 +264,27 @@ parallel.waitForAny(
             sleep(0.25)
             listItems(Search.text)
         end
+    end,
+    function()
+        sleep(1)
+        -- local updated = false
+        while true do
+            local storage, used_storage, slots, used_slots = 0, 0, 0, 0
+            for i, c in pairs(API.GetChests()) do
+                slots = slots + c.size()
+                storage = slots * 64
+                local list = c.list()
+                used_slots = used_slots + #c.list()
+                for slot, item in pairs(list) do
+                    used_storage = used_storage + item.count
+                end
+            end
+            stats[1]:setText("Estimated usage: " .. math.floor((used_storage / storage) * 100) .. "%")
+            stats[2]:setText("Total slots: " .. slots)
+            stats[3]:setText("Used slots: " .. used_slots)
+            sleep(1)
+        end
+        sleep(9999)
     end
 )
+-- :setText("Estimated usage: " .. math.floor((used_storage / storage) * 100) .. "%")
