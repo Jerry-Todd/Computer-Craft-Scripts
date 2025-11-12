@@ -192,6 +192,11 @@ end
 function InfoMenu(frame)
     frame:setPosition(1, 3)
         :setSize(W, H - 2)
+        
+    frame:addLabel()
+        :setText("Boxel by Jerry")
+        :setPosition(2, H - 2)
+        :setSize(40,1)
 
     local basaltCredit = frame:addLabel()
         :setText("GUI powered by Basalt 2")
