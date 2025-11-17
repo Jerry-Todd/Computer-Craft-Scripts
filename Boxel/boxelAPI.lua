@@ -22,6 +22,9 @@ Items = {}
 ItemsBasic = {}
 ChestCache = {}
 Chests = { peripheral.find('minecraft:chest') }
+if not Interface then
+    print("No chests found")
+end
 Log(#Chests)
 
 local Interface = peripheral.getName(peripheral.find('minecraft:barrel')) or nil
