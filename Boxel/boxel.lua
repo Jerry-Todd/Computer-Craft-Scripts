@@ -3,7 +3,7 @@ W, H = term.getSize()
 -- Import Basalt
 if not fs.exists("basalt.lua") then
     print('Basalt not found, installing...')
-    shell.run("wget run https://raw.githubusercontent.com/Pyroxenium/Basalt2/main/install.lua -r")
+    shell.run("wget run https://raw.githubusercontent.com/Pyroxenium/Basalt2/main/install.lua -f")
 end
 local basalt = require("basalt")
 -- Import BoxelAPI
@@ -96,6 +96,11 @@ function SearchMenu(frame)
             Deposit:setText("Deposit")
         end)
 
+    local ItemList = frame:addScrollFrame()
+        :setPosition(2, 4)
+        :setSize(W - 3, H - 6)
+        :setBackground(colors.black)
+
     Search = frame:addInput()
         :setPosition(2, 2)
         :setSize(W - 15, 1)
@@ -103,6 +108,9 @@ function SearchMenu(frame)
         :setBackground(colors.gray)
         :setPlaceholder("search...")
         :setPlaceholderColor(colors.lightGray)
+        :onChange("text", function(self, text)
+            ItemList:setOffset(0, 0)
+        end)
 
     frame:addButton()
         :setText("X")
@@ -112,12 +120,8 @@ function SearchMenu(frame)
         :setForeground(colors.white)
         :onClick(function()
             Search:setText("")
+            ItemList:setOffset(0, 0)
         end)
-
-    local scrollFrame = frame:addFrame()
-        :setPosition(2, 4)
-        :setSize(W - 2, H - 6)
-        :setBackground(colors.black)
 
     function listItems(searchTerm)
         -- Filter items
@@ -125,8 +129,8 @@ function SearchMenu(frame)
         local items = API.GetItems()
 
         if not items or next(items) == nil then
-            scrollFrame:clear()
-            scrollFrame:addLabel()
+            ItemList:clear()
+            ItemList:addLabel()
                 :setText("Storage is empty")
                 :setSize(20, 1)
                 :setPosition(1, 1)
@@ -142,8 +146,8 @@ function SearchMenu(frame)
         end
 
         if not filtered_items or next(filtered_items) == nil then
-            scrollFrame:clear()
-            scrollFrame:addLabel()
+            ItemList:clear()
+            ItemList:addLabel()
                 :setText("Nothing found")
                 :setSize(20, 1)
                 :setPosition(1, 1)
@@ -154,11 +158,11 @@ function SearchMenu(frame)
         local y = 0
 
         -- Display items
-        scrollFrame:clear()
+        ItemList:clear()
         for name, count in pairs(filtered_items) do
             y = y + 1
             local text = API.DisplayName(name) .. " x" .. count
-            local button = scrollFrame:addButton()
+            local button = ItemList:addButton()
                 :setText("Take")
                 :setSize(6, 1)
                 :setPosition(1, y)
@@ -173,7 +177,7 @@ function SearchMenu(frame)
                 button:setBackground(colors.gray)
                     :setForeground(colors.white)
             end
-            scrollFrame:addLabel()
+            ItemList:addLabel()
                 :setText(text)
                 :setSize(#text, 1)
                 :setPosition(8, y)
