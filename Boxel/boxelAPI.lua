@@ -24,7 +24,10 @@ ChestCache = {}
 Chests = { peripheral.find('minecraft:chest') }
 Log(#Chests)
 
-local Interface = peripheral.getName(peripheral.find('minecraft:barrel'))
+local Interface = peripheral.getName(peripheral.find('minecraft:barrel')) or nil
+if not Interface then
+    print("Please connect a barrel")
+end
 
 -- Item data template
 -- {
