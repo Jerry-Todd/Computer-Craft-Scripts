@@ -296,4 +296,3 @@ parallel.waitForAny(
         sleep(9999)
     end
 )
--- :setText("Estimated usage: " .. math.floor((used_storage / storage) * 100) .. "%")
