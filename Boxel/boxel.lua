@@ -155,19 +155,28 @@ function SearchMenu(frame)
             return
         end
 
+        -- Sort items alphabetically
+        local sorted_items = {}
+        for name, count in pairs(filtered_items) do
+            table.insert(sorted_items, {name = name, count = count, displayName = API.DisplayName(name)})
+        end
+        table.sort(sorted_items, function(a, b)
+            return a.displayName:lower() < b.displayName:lower()
+        end)
+
         local y = 0
 
         -- Display items
         ItemList:clear()
-        for name, count in pairs(filtered_items) do
+        for _, item in ipairs(sorted_items) do
             y = y + 1
-            local text = API.DisplayName(name) .. " x" .. count
+            local text = item.displayName .. " x" .. item.count
             local button = ItemList:addButton()
                 :setText("Take")
                 :setSize(6, 1)
                 :setPosition(1, y)
                 :onClick(function()
-                    API.TakeStack(name)
+                    API.TakeStack(item.name)
                     listItems(Search.text)
                 end)
             if y % 2 == 1 then
