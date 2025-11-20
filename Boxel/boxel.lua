@@ -179,18 +179,21 @@ function SearchMenu(frame)
                     API.TakeStack(item.name)
                     listItems(Search.text)
                 end)
-            if y % 2 == 1 then
-                button:setBackground(colors.lightGray)
-                    :setForeground(colors.black)
-            else
-                button:setBackground(colors.gray)
-                    :setForeground(colors.white)
-            end
-            ItemList:addLabel()
+            local label = ItemList:addLabel()
                 :setText(text)
                 :setSize(#text, 1)
                 :setPosition(8, y)
                 :setForeground(colors.white)
+            if y % 2 == 1 then
+                button:setBackground(colors.lightGray)
+                    :setForeground(colors.black)
+                label:setForeground(colors.white)
+            else
+                button:setBackground(colors.gray)
+                    :setForeground(colors.white)
+                label:setForeground(colors.lightGray)
+            end
+            
         end
     end
 
