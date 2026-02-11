@@ -14,6 +14,34 @@ if not fs.exists("boxelAPI.lua") then
 end
 local API = require("boxelAPI")
 
+Config = {
+    sortonly = false
+}
+
+local CONFIG_FILE = "data.dat"
+
+local function SaveConfig()
+    local h = fs.open(CONFIG_FILE, "w")
+    if not h then return end
+    h.write(textutils.serialise(Config))
+    h.close()
+end
+
+local function LoadConfig()
+    if not fs.exists(CONFIG_FILE) then return end
+    local h = fs.open(CONFIG_FILE, "r")
+    if not h then return end
+    local data = textutils.unserialise(h.readAll())
+    h.close()
+    if type(data) == "table" then
+        for k, v in pairs(data) do
+            Config[k] = v
+        end
+    end
+end
+
+LoadConfig()
+
 -- Main GUI
 function MainMenu(frame)
     frame:addLabel()
@@ -44,13 +72,6 @@ function MainMenu(frame)
             API.ClearCache()
         end)
 
-    local b_stats = frame:addButton()
-        :setText("Info")
-        :setSize(4, 1)
-        :setBackground(colors.gray)
-        :setForeground(colors.white)
-        :setPosition(16, 1)
-
     local b_search = frame:addButton()
         :setText("Search")
         :setSize(6, 1)
@@ -58,15 +79,38 @@ function MainMenu(frame)
         :setForeground(colors.white)
         :setPosition(9, 1)
 
+    local b_stats = frame:addButton()
+        :setText("Info")
+        :setSize(4, 1)
+        :setBackground(colors.gray)
+        :setForeground(colors.white)
+        :setPosition(16, 1)
+
+    local b_config = frame:addButton()
+        :setText("Config")
+        :setSize(6, 1)
+        :setBackground(colors.gray)
+        :setForeground(colors.white)
+        :setPosition(21, 1)
+
     b_stats:onClick(function()
         SelectTab(F_stats)
         b_stats:setBackground(colors.blue)
         b_search:setBackground(colors.gray)
+        b_config:setBackground(colors.gray)
     end)
 
-    b_search:onClick(function() 
+    b_search:onClick(function()
         SelectTab(F_search)
         b_search:setBackground(colors.blue)
+        b_stats:setBackground(colors.gray)
+        b_config:setBackground(colors.gray)
+    end)
+
+    b_config:onClick(function()
+        SelectTab(F_config)
+        b_config:setBackground(colors.blue)
+        b_search:setBackground(colors.gray)
         b_stats:setBackground(colors.gray)
     end)
 
@@ -91,7 +135,7 @@ function SearchMenu(frame)
         :onClick(function()
             Deposit:setForeground(colors.yellow)
             Deposit:setText("Working")
-            API.DepositAll()
+            API.DepositAll(Config.sortonly)
             Deposit:setForeground(colors.white)
             Deposit:setText("Deposit")
         end)
@@ -158,7 +202,7 @@ function SearchMenu(frame)
         -- Sort items alphabetically
         local sorted_items = {}
         for name, count in pairs(filtered_items) do
-            table.insert(sorted_items, {name = name, count = count, displayName = API.DisplayName(name)})
+            table.insert(sorted_items, { name = name, count = count, displayName = API.DisplayName(name) })
         end
         table.sort(sorted_items, function(a, b)
             return a.displayName:lower() < b.displayName:lower()
@@ -193,7 +237,6 @@ function SearchMenu(frame)
                     :setForeground(colors.white)
                 label:setForeground(colors.lightGray)
             end
-            
         end
     end
 
@@ -208,49 +251,80 @@ end
 function InfoMenu(frame)
     frame:setPosition(1, 3)
         :setSize(W, H - 2)
-        
+
     frame:addLabel()
         :setText("Boxel by Jerry")
         :setPosition(2, H - 2)
-        :setSize(40,1)
+        :setSize(40, 1)
 
     local basaltCredit = frame:addLabel()
         :setText("GUI powered by Basalt 2")
-        :setSize(40,1)
+        :setSize(40, 1)
     basaltCredit:setPosition(W - #basaltCredit.text, H - 2)
 
     frame:addLabel()
         :setText("Storage:")
-        :setPosition(2,2)
-        :setSize(40,1)
+        :setPosition(2, 2)
+        :setSize(40, 1)
 
     frame:addLabel()
         :setText("Chest count: " .. #API.GetChests())
-        :setPosition(3,4)
-        :setSize(40,1)
+        :setPosition(3, 4)
+        :setSize(40, 1)
 
     local stats = frame:addLabel()
         :setText("Estimated usage: Loading...")
-        :setPosition(3,6)
-        :setSize(40,1)
-    
+        :setPosition(3, 6)
+        :setSize(40, 1)
+
     local slots = frame:addLabel()
         :setText("Total slots: Loading...")
-        :setPosition(3,8)
-        :setSize(40,1)
+        :setPosition(3, 8)
+        :setSize(40, 1)
 
     local used_slots = frame:addLabel()
         :setText("Used slots: Loading...")
-        :setPosition(3,10)
-        :setSize(40,1)
+        :setPosition(3, 10)
+        :setSize(40, 1)
 
-    return {stats, slots, used_slots}
+    return { stats, slots, used_slots }
+end
+
+-- Config GUI
+function ConfigMenu(frame)
+    frame:setPosition(1, 3)
+        :setSize(W, H - 2)
+
+    frame:addLabel()
+        :setText("Config:")
+        :setPosition(2, 2)
+        :setSize(40, 1)
+
+    local sw = frame:addSwitch()
+        :setPosition(3, 4)
+        :setSize(4, 1)
+        :setText("Sort only")
+
+    sw.checked = Config.sortonly
+
+    sw:onChange("checked", function(self, checked)
+        if checked then
+            Config.sortonly = true
+        else
+            Config.sortonly = false
+        end
+        API.Log("Config - Sort only ->", Config.sortonly)
+        SaveConfig()
+    end)
+
+    return
 end
 
 -- Tab switching
 function SelectTab(frame)
     F_search:setSize(0, H - 2)
     F_stats:setSize(0, H - 2)
+    F_config:setSize(0, H - 2)
 
     frame:setSize(W, H - 2)
 end
@@ -267,6 +341,10 @@ local listItems = SearchMenu(F_search)
 -- Init stats GUI
 F_stats = F_main:addFrame()
 local stats = InfoMenu(F_stats)
+
+-- Init stats GUI
+F_config = F_main:addFrame()
+local config_menu = ConfigMenu(F_config)
 
 SelectTab(F_search)
 

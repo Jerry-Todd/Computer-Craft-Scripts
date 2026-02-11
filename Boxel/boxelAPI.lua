@@ -155,7 +155,7 @@ function M.TakeStack(name)
 end
 
 -- Deposit all item
-function M.DepositAll()
+function M.DepositAll(sortonly)
     local interfacePeripheral = peripheral.wrap(Interface)
     if not interfacePeripheral then
         Log('Interface not found')
@@ -189,7 +189,7 @@ function M.DepositAll()
             end
             
             -- If not deposited yet, try any available chest
-            if not deposited then
+            if not deposited and not sortonly then
                 for id, chest in ipairs(Chests) do
                     local chestName = peripheral.getName(chest)
                     if chestName then
@@ -205,7 +205,7 @@ function M.DepositAll()
             end
             
             -- If still couldn't deposit, the storage is full
-            if not deposited then
+            if not deposited and sortonly then
                 Log('Storage full! Could not deposit '..itemName)
             end
         end
@@ -255,6 +255,10 @@ end
 
 function M.GetChests()
     return Chests
+end
+
+function M.Log(...)
+    return Log(...)
 end
 
 return M
