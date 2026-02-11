@@ -211,7 +211,7 @@ function M.DepositAll(sortonly)
         end
         
         -- If no items were found in the interface, we're done
-        if not hasItems then
+        if not hasItems or sortonly then
             break
         end
     end

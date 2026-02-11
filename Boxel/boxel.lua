@@ -303,6 +303,10 @@ function ConfigMenu(frame)
     local sw = frame:addSwitch()
         :setPosition(3, 4)
         :setSize(4, 1)
+
+    frame:addLabel()
+        :setPosition(8, 4)
+        :setSize(4, 1)
         :setText("Sort only")
 
     sw.checked = Config.sortonly
@@ -313,7 +317,7 @@ function ConfigMenu(frame)
         else
             Config.sortonly = false
         end
-        API.Log("Config - Sort only ->", Config.sortonly)
+        API.Log("Config - Sort only ->" .. tostring(Config.sortonly))
         SaveConfig()
     end)
 
